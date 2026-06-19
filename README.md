@@ -59,7 +59,7 @@ Para analizar este sistema, podemos modelarlo utilizando la **Teoría de colas**
 - La orden de internación de un paciente es su llegada al sistema.
 - Una cama es un servidor.
 - La llegada de un paciente es aleatoria, siguiendo una distribución exponencial en el tiempo (en cuanto avance el tiempo, la probabilidad de llegada de un paciente crece exponencialmente).
-- El egreso de un paciente es aleatorioc, siguiendo una distribución exponencial.
+- El egreso de un paciente es aleatorio, siguiendo una distribución exponencial.
 
 Bajo la notación de Kendall, sería un modelo multi-servidor de cola infinita y fuente infinita: `(M|M|c):(GD|\infty|\infty)`.
 

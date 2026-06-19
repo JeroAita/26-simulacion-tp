@@ -12,27 +12,9 @@ Docentes:
 - Franco Lorena
 - Bonesi Matías
 
-## Repositorio
+## Trabajo en el repositorio
 
-**Activar entorno virtual Python**
-
-En Linux:
-
-~~~bash
-source venv/bin/activate
-~~~
-
-En Windows:
-
-~~~powershell
-venv\bin\activate
-~~~
-
-**Instalar dependencias**
-
-~~~
-pip install requirements.txt
-~~~
+Documentado en [REPO](REPO.md)
 
 ## Consigna
 

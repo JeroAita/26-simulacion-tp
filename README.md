@@ -5,7 +5,7 @@ Equipo:
 
 - Aita Jerónimo
 - Mactavish Tomás
-- Francis Rojas
+- Rojas Francis
 
 Docentes:
 

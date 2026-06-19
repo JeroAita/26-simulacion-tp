@@ -18,7 +18,6 @@ Documentado en [REPO](REPO.md)
 
 ## Consigna
 
-~~~
 Seleccionar un modelo o sistema que tenga varios servidores, que estén conectados en serie y en paralelo. Tendrán que contextualizar y explicar su funcionamiento.
 
 El sistema considerado debe ser un sistema real del cual puedan demostrar y obtener los datos de las variables exógenas o bien obtener la información a través de alguna fuente pública de internet.
@@ -28,7 +27,6 @@ Antes de continuar con el resto del trabajo la idea deberá ser presentada y apr
 Fecha máxima de presentación de tema a aprobar 10-09-26.
 
 La idea clave del trabajo integrador es que puedan aplicar todo lo que vamos a ir viendo en la materia de Simulación. Por lo tanto, a medida que avancemos en los temas, van a tener que ir presentando los avances.
-~~~
 
 ## Sistema
 

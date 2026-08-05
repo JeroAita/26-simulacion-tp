@@ -30,11 +30,11 @@ La idea clave del trabajo integrador es que puedan aplicar todo lo que vamos a i
 
 ## Sistema
 
-Nuestro equipo trabajará sobre **la internación de pacientes en un hospital**.
+Nuestro equipo propone trabajar sobre **la internación de pacientes en un hospital**.
 
-Bajo el contexto de un centro de salud que presta hospitalización, el mismo posee un determinado conjunto finito de camas.
+Bajo el contexto de un centro de salud que presta servicio de hospitalización, el mismo posee un determinado conjunto finito de **camas**.
 
-Cuando un médico considera que un paciente requiere hospitalización, genera una **orden de internación** para ese paciente. Esto habilita al personal de enfermería asignarlo a una **cama** entre las disponibles.
+Cuando un médico considera que un paciente requiere hospitalización, genera una **orden de internación** para ese paciente. Esto habilita al personal de enfermería asignarlo a una cama entre las disponibles.
 
 **De no haber camas disponibles**, el paciente retendría la orden de internación, pudiendo optar por atenderse en otro centro de salud.
 
@@ -59,5 +59,8 @@ Para analizar este sistema, podemos modelarlo utilizando la **Teoría de colas**
 - La llegada de un paciente es aleatoria, siguiendo una distribución exponencial en el tiempo (en cuanto avance el tiempo, la probabilidad de llegada de un paciente crece exponencialmente).
 - El egreso de un paciente es aleatorio, siguiendo una distribución exponencial.
 
-Bajo la notación de Kendall, sería un modelo multi-servidor de cola infinita y fuente infinita: `(M|M|c):(GD|\infty|\infty)`.
+Bajo la notación de Kendall, sería un modelo multi-servidor de cola infinita y fuente infinita: 
 
+$$
+(M|M|c):(GD|\infty|\infty)
+$$

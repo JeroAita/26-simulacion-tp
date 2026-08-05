@@ -43,7 +43,7 @@ También pueden ocurrir **pases de cama**, en caso de ser necesario trasladar al
 
 Luego de cierto tiempo, el médico responsable emite un **alta**, que habilita al personal de enfermería registrar el **egreso** del paciente, dejando libre la cama que ocupaba.
 
-> [!note] Extra: Quirófano
+> Extra: Quirófano
 >
 > Además, según el cuadro clínico del paciente, el médico puede indicar la necesidad de realizar una operación.
 > La misma requiere pasar al paciente de una cama (periodo de preparación pre-quirúrgica) al quirófano; una sala especial en la que el paciente podría pasar entre minutos y horas.

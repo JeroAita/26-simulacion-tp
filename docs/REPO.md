@@ -1,7 +1,6 @@
 
 ## Trabajo en el repositorio
 
-
 ### Entorno virtual Python y dependencias
 
 **Activar entorno virtual Python**

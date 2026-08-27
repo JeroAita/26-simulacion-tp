@@ -8,7 +8,7 @@ df = pd.read_csv("datos/angeles-movimientos_internacion.csv")
 conn = sqlite3.connect("datos/datos.db")
 
 # Guardar el DataFrame en SQLite
-df.to_sql("tabla_datos", conn, if_exists="replace", index=False)
+df.to_sql("datos_crudos", conn, if_exists="replace", index=False)
 
 # Cerrar la conexión
 conn.close()

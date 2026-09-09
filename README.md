@@ -52,24 +52,34 @@ La misma requiere pasar al paciente de una cama (periodo de preparación pre-qui
 
 Luego de la operación, el paciente volvería a una cama (periodo de reposo post-quirúrgico) hasta recibir el alta.
 
-## Muestras
-
-(...)
-
 ## Modelo
 
 Para analizar este sistema, podemos modelarlo utilizando la **Teoría de colas** con las siguientes reglas:
 
 - Un paciente es una entidad/cliente.
-- La orden de internación de un paciente es su llegada al sistema.
+- El evento "orden de internación" es la llegada de un paciente al sistema. Queda encolado hasta que ocurre el evento "Ingreso", que lo ubica en una cama.
 - Una cama es un servidor.
-- La llegada de un paciente es aleatoria, siguiendo una distribución exponencial en el tiempo (en cuanto avance el tiempo, la probabilidad de llegada de un paciente crece exponencialmente).
-- El egreso de un paciente es aleatorio, siguiendo una distribución exponencial.
+- Existe una cama especial llamada quirófano, en serie con todas las camas. Se llega al y se sale del quirófano mediante un evento "Pase de cama". Salir del quirófano implicaría volver a la cola original, pero siempre se retorna a una cama. Por lo tanto, se tiene una cola con prioridades.
+- La llegada de un paciente es aleatoria, siguiendo una distribución desconocida.
+- El egreso de un paciente es aleatorio, siguiendo una distribución desconocida.
 
 Bajo la notación de Kendall, sería un modelo multi-servidor de cola infinita y fuente infinita: 
 
 $$
-(M|M|c):(GD|\infty|\infty)
+(GD|GD|c):(GD|\infty|\infty)
 $$
 
 ![](docs/simulacion-tp_final-diagrama_modelo.png)
+
+## Muestras y análisis preliminar
+
+Tomamos 9000 registros de eventos de la base de datos del centro de salud, descartando datos personales y sensibles:
+
+![](docs/simulacion-tp_final-muestras.png)
+
+Analizamos las llegadas al sistema en búsqueda de comprender el periodo entre ellas:
+
+![](docs/simulacion-tp_final-muestras-2.png)
+
+Teniendo 1938 eventos de tipo "Orden de internación", nos da una media muestral de $1,148$ horas por paciente.
+

@@ -31,5 +31,5 @@ SELECT
      julianday(LAG(fecha_hora_evento) OVER (ORDER BY fecha_hora_evento))) * 24
         AS horas_desde_evento_anterior
 FROM datos_crudos
-WHERE tipo_evento = ''
+WHERE tipo_evento = 'Egreso'
 ORDER BY fecha_hora_evento;

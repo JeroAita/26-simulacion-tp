@@ -62,6 +62,7 @@ Para analizar este sistema, podemos modelarlo utilizando la **Teoría de colas**
 - Existe una cama especial llamada quirófano, en serie con todas las camas. Se llega al y se sale del quirófano mediante un evento "Pase de cama". Salir del quirófano implicaría volver a la cola original, pero siempre se retorna a una cama. Por lo tanto, se tiene una cola con prioridades.
 - La llegada de un paciente es aleatoria, siguiendo una distribución desconocida.
 - El egreso de un paciente es aleatorio, siguiendo una distribución desconocida.
+- Desestimaremos los eventos "Pase de cama" que sean entre camas regulares, ya que este tipo de evento no altera la cantidad total de servidores en paralelo ocupados.
 
 Bajo la notación de Kendall, sería un modelo multi-servidor de cola infinita y fuente infinita: 
 
@@ -71,15 +72,47 @@ $$
 
 ![](docs/simulacion-tp_final-diagrama_modelo.png)
 
+Con este modelo sabemos que:
+
+- La tasa de llegada efectiva es igual a la tasa de llegada, porque la cola es infinita: $\lambda_{eff} = \lambda_n$
+- La tasa de llegada no depende del estado del sistema: $\lambda_n = \lambda$
+- La tasa de salida del sistema escala con la tasa de salida de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados).
+
 ## Muestras y análisis preliminar
 
-Tomamos 9000 registros de eventos de la base de datos del centro de salud, descartando datos personales y sensibles:
+Tomamos 9000 registros de base de datos del centro de salud, descartando datos personales y sensibles. Cada registro corresponde a un **evento** que relaciona a un paciente con un tipo de evento, una cama y una fecha-hora. Existen los eventos de tipos:
+
+- Orden de internación
+- Ingreso
+- Pase de cama
+- Alta médica
+- Egreso
 
 ![](docs/simulacion-tp_final-muestras.png)
 
-Analizamos las llegadas al sistema en búsqueda de comprender el periodo entre ellas:
+Aquí vemos que existen $76$ camas distintas (76 `cama_id`s distintos, por más que los IDs estén en el orden de los docientos). De aquí podemos tomar $c = 75$ camas regulares en paralelo.
+Identificamos la cama quirófano con el id `241` desde el sistema, pero además puede verse que a esta cama en particular los pacientes llegan únicamente a través de pases de cama.
+
+Filtramos los eventos de tipo Orden de internación para analizar las llegadas al sistema y comprender el periodo entre ellas:
 
 ![](docs/simulacion-tp_final-muestras-2.png)
 
-Teniendo 1938 eventos de tipo "Orden de internación", nos da una media muestral de $1,148$ horas por paciente.
+Teniendo $n = 1937$ eventos de tipo Orden de internación, calculamos la media muestral y el desvío estándar:
 
+- $$\bar x = \frac{ \sum_{i=1}^{n}{ x_i } }{n} = 1,148 \frac{\text{horas}}{\text{paciente}}$$
+- $$s^2 = \frac{ sum_{i=1}^{n}{ (x_i - \bar x)^2 } }{n-1} = 4,99$$
+
+Esto nos da paso a estimar la **tasa de llegada** como $\lambda = \frac{1}{\bar x} = 0,87$
+
+Al ser la variable aleatoria la cantidad de tiempo entre evento y evento, sabemos que es no-negativa. Por lo tanto, no correspondería a una distribución normal...
+Realizamos la **prueba de bondad de ajuste Xi Cuadrado** para analizar si las muestras se ajustan a una distribución exponencial...
+
+> Nota conceptual: utilizamos la prueba de Xi Cuadrado en lugar de la prueba de Kolmogorov-Smirnov porque poseemos una gran cantidad de muestras - la alternativa mencionada se utiliza en situación de poseer menos o cerca de 30 muestras.
+
+## Análisis de modelo de colas
+
+(...)
+
+## Simulación
+
+(...)

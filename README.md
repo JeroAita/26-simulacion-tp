@@ -112,7 +112,7 @@ Realizamos la **prueba de bondad de ajuste Xi Cuadrado** para analizar si las mu
 > *Nota conceptual*
 > Utilizamos la prueba de Xi Cuadrado en lugar de la prueba de Kolmogorov-Smirnov porque poseemos una gran cantidad de muestras. La alternativa mencionada se utiliza en situación de poseer menos o cerca de 30 muestras.
 
-Planteamos como hipótesis nula $H_0$ que las muestras corresponden a una distribución exponencial con media $0,917$, y como hipótesis alternativa, que corresponden a otra distribución. Tomamos un nivel de significancia $1 - \alpha = 90\%$.
+Planteamos como hipótesis nula $H_0$ que las muestras corresponden a una distribución exponencial con media $0,917$, y como hipótesis alternativa, que corresponden a otra distribución. Tomamos un nivel de significancia $1 - \alpha = 0,90$.
 Tomamos $k = \sqrt{n} \approx  43$ intervalos equiprobables, de frecuencias esperadas $F_e = \frac{n}{k} \approx 44,7$. Calculamos los límites de los intervalos a partir de la función de probabilidad acumulada:
 
 $$
@@ -172,7 +172,7 @@ Las frecuencias observadas $F_o$ en cada intervalo:
 | $2,442$ | 38 |
 | $2,813$ | 36 |
 | $3,449$ | 45 |
-| $\inf$ | 98 |
+| $\infty$ | 98 |
 
 Calculamos el estimador:
 
@@ -186,9 +186,9 @@ Vemos que el $\chi^2$ calculado es ampliamente superior al $\chi^2$ tabulado, po
 
 Detalles a considerar:
 
-- El primer intervalo, $(0; \ 0,022)$ (periodos de menos de 1,3 minutos entre entradas) aporta $(F_o - F_e)^2}{F_e} = 2455,6$ al estadístico, es decir, casi la totalidad del peso de los resultados.
+- El primer intervalo, $(0; \ 0,022)$ (periodos de menos de 1,3 minutos entre entradas) aporta $\frac{(F_o - F_e)^2}{F_e} = 2455,6$ al estadístico, es decir, casi la totalidad del peso de los resultados.
 - Los intervalos intermedios respetan una alineación equilibrada más próxima a la distribución esperada.
-- El último intervalo, $(3,449; \ \inf)$ (entradas cada más de 3,5 horas) son el siguiente gran aporte al estadístico.
+- El último intervalo, $(3,449; \ \infty)$ (entradas cada más de 3,5 horas) son el siguiente gran aporte al estadístico.
 
 Esto sugiere que el proceso de llegadas al sistema no es homogéneo, sino que podría ser una mezcla entre:
 

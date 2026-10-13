@@ -7,10 +7,14 @@ Equipo:
 - Mactavish Tomás
 - Rojas Francis
 
-Docentes:
+Cátedra:
 
 - Franco Lorena
 - Bonesi Matías
+
+Universidad Tecnológica Nacional, Facultad Regional Delta.
+
+Octubre 2026.
 
 ---
 
@@ -93,7 +97,7 @@ Tomamos 9016 registros de base de datos del centro de salud, descartando datos p
 Aquí vemos que existen $75$ camas distintas (75 `cama_id`s distintos, por más que los IDs estén en el orden de los doscientos). De aquí podemos tomar $c = 74$ camas regulares en paralelo.
 Identificamos que la cama quirófano es aquella con `cama_id` `241` desde el sistema, pero además puede verse que a esta cama en particular los pacientes llegan únicamente a través de pases de cama.
 
-### Llegadas
+### Análisis de llegadas
 
 Filtramos los eventos de tipo Orden de internación con el objetivo de analizar las llegadas al sistema y comprender el periodo entre ellas:
 
@@ -113,15 +117,18 @@ Realizamos la **prueba de bondad de ajuste Xi Cuadrado** para analizar si las mu
 > Utilizamos la prueba de Xi Cuadrado en lugar de la prueba de Kolmogorov-Smirnov porque poseemos una gran cantidad de muestras. La alternativa mencionada se utiliza en situación de poseer menos o cerca de 30 muestras.
 
 Planteamos como hipótesis nula $H_0$ que las muestras corresponden a una distribución exponencial con media $0,917$, y como hipótesis alternativa, que corresponden a otra distribución. Tomamos un nivel de significancia $1 - \alpha = 0,90$.
-Tomamos $k = \sqrt{n} \approx  43$ intervalos equiprobables, de frecuencias esperadas $F_e = \frac{n}{k} \approx 44,7$. Calculamos los límites de los intervalos a partir de la función de probabilidad acumulada:
+
+Tomamos $k = \sqrt{n} \approx  43$ intervalos equiprobables, de frecuencias esperadas $F_e = \frac{n}{k} \approx 44,7$. Calculamos los límites de los intervalos a partir de la inversa de la función de probabilidad acumulada:
 
 $$
 \begin{aligned}
 F(x) &= 1-e^{- \lambda x} \\
-\frac{1}{x_i} &= 1-e^{- \lambda x} \\
-x_i &= -\frac{1}{\lambda} \cdot \ln \left( 1 - \frac i k \right) \\
-x_i &= -0,917 \cdot \ln \left( 1 - \frac{i}{43} \right)
+\Rightarrow F^{-1}(x) &= -\frac{1}{\lambda} \cdot \ln \left( 1 - \frac i k \right)\\
 \end{aligned}
+$$
+
+$$
+x_i = -0,917 \cdot \ln \left( 1 - \frac{i}{43} \right)
 $$
 
 Luego los intervalos: $[x_0; \ x_1) = [0; \ 0,022)$, $[x_1; \ x_2) = [0,022; \ 0,044)$, ...
@@ -198,9 +205,15 @@ Esto sugiere que el proceso de llegadas al sistema no es homogéneo, sino que po
 
 Si bien se rechazó la hipótesis de que las llegadas siguen una distribución exponencial, la media $\lambda = 1,09 \frac{\text{pacientes}}{\text{hora}}$ sigue siendo válida como estimador de la tasa de llegadas, ya que se deriva directamente de la media muestral. La misma será utilizada como parámetro descriptivo del proceso GD en el modelo de colas.
 
-### Salidas
+### Análisis de tiempos de servicio
 
-(Repetimos el procedimiento para analizar las salidas del sistema...)
+Similiar al procedimiento realizado para analizar las llegadas al sistema, filtramos los eventos de tipo Egreso con el objetivo de analizar los tiempos de servicio de las camas.
+
+(?)
+
+### Llegadas y tiempos de servicio del quirófano
+
+(...)
 
 ## Análisis de modelo de colas
 

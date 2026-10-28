@@ -18,7 +18,7 @@ Un índice + barra de progreso del trabajo.
 - [ ] [Análisis](secciones/analisis.md)
   - [x] Modelo
   - [x] Llegadas
-  - [ ] Tiempos de servicio
+  - [x] Tasas de servicio
   - [ ] Llegadas y tiempos de servicio del quirófano
   - [ ] Medidas de rendimiento analíticas
 - [ ] [Experimentación](secciones/experimentacion.md)

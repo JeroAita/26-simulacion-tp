@@ -1,5 +1,5 @@
 ---
-title: 'Análisis de entradas - Chi Cuadrado'
+title: 'Análisis de llegadas - Chi Cuadrado'
 ---
 
 Teniendo $n = 1190$ eventos de tipo Orden de internación, calculamos la media muestral y el desvío estándar:

@@ -18,9 +18,9 @@ Luego de la operación, el paciente volvería a una cama (periodo de reposo post
 
 ### Datos
 
->Ver el archivo `angeles-movimientos_internacion.csv`
+>Ver el archivo `datos.db`
 
-Tomamos 9016 registros de base de datos del centro de salud, descartando datos personales y sensibles. Cada registro corresponde a un **evento** que relaciona a un paciente con un tipo de evento, una cama y una fecha-hora. De ocurrir un siguiente evento para el mismo paciente, el sistema actualiza el registro con su ID.
+Tomamos 8.636 registros de base de datos del centro de salud, descartando datos personales y sensibles. Cada registro corresponde a un **evento** que relaciona a un paciente con un tipo de evento, una cama y una fecha-hora. De ocurrir un siguiente evento para el mismo paciente, el sistema actualiza el registro con su ID.
 
 Existen los eventos de tipos:
 

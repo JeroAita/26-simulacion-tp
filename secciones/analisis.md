@@ -22,19 +22,26 @@ Con este modelo sabemos que:
 - El tiempo de servicio del sistema escala con el tiempo de servicio de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados). Aun así, contemplaremos que los servidores son heterogéneos; cada uno tendrá su tiempo de servicio.
 
 
-Retomando de los datos disponibles, podríamos tomar $c = 74$ camas regulares en paralelo. Identificamos que la cama quirófano es aquella con `cama_id = 241` desde el sistema, reafirmado al ver que a esta cama en particular los pacientes llegan únicamente a través de pases de cama.
+Retomando de los datos disponibles: podríamos tomar $c = 74$ camas regulares en paralelo. Identificamos que la cama quirófano es aquella con `cama_id = 241` desde el sistema, reafirmado al ver que a esta cama en particular los pacientes llegan únicamente a través de pases de cama.
 
-Aun así, para el alcance de este trabajo, necesitamos acotar la cantidad de servidores. Tomaremos únicamente $c = 5$ camas seleccionadas de manera arbitraria:
+Aun así, para el alcance de este trabajo, necesitamos acotar la cantidad de servidores. **Tomaremos únicamente $c = 10$ camas**, seleccionando aquellas con mayor cantidad de eventos de tipo "Ingreso"  asociados:
 
-- `200`
-- `203`
-- `225`
-- `236`
-- `281`
+| ID | Ingresos |
+| :---: | :---: |
+|201 |247 |
+|202|183 |
+|203 |163 |
+|273|155 |
+|230|87|
+|275|82|
+|231|79|
+|232|71|
+|200|67|
+|243|67|
 
-Más la cama quirófano, `241`.
+Estas camas representan casi el 70% de la actividad de las muestras; al acumular 1201 eventos de tipo Ingreso de los 1756 en total.
 
-Ignoraremos los eventos de tipo "Pase de cama" que no involucren a la cama `241`, ya que al ser movimientos de entidades entre servidores en paralelo no modifican la cantidad de servidores ocupados. En consecuencia, consideraremos que el paciente continúa en la misma cama desde su ingreso hasta que ocurra un pase de cama al quirófano o hasta su egreso. El tiempo de servicio a un paciente se calcularía entonces como la diferencia entre la fecha-hora de egreso/paso a quirófano y la fecha-hora de ingreso. Esto se desarrollará con mayor detalle más adelante, cuando analicemos los tiempos de servicio.
+Ignoraremos los eventos de tipo "Pase de cama" que no involucren a la cama `241`, ya que al ser movimientos de entidades entre servidores en paralelo no modifican la cantidad de servidores ocupados. En consecuencia, consideraremos que el paciente continúa en la misma cama desde su ingreso hasta que ocurra un pase de cama al quirófano o hasta su egreso. El tiempo de servicio a un paciente se calcularía entonces como la diferencia entre la fecha-hora de egreso o paso a quirófano y la fecha-hora de ingreso. Esto se desarrollará con mayor detalle más adelante, cuando analicemos los tiempos de servicio.
 
 Además, ignoraremos los eventos de tipo "Alta médica", ya que no implican un movimiento de entidad, sino que representan una etapa burocrática necesaria previa al evento de tipo "Egreso", que sí implica un movimiento de entidad.
 
@@ -48,61 +55,62 @@ Filtramos los eventos de tipo "Orden de internación" con el objetivo de analiza
 
 ![Captura de registro de eventos](../src/simulacion-tp_final-muestras-2.png)
 
-Teniendo $n = 1922$ eventos de tipo Orden de internación, calculamos la media muestral y el desvío estándar:
+Teniendo $n = 1190$ eventos de tipo Orden de internación, calculamos la media muestral y el desvío estándar:
 
 $$
 \bar x = \frac{ \sum_{i=1}^{n}{ x_i } }{n} 
-\approx 0,917 \frac{\text{horas}}{\text{paciente}} 
+\approx 1,479 \frac{\text{horas}}{\text{paciente}} 
 \, \qquad 
 s = \sqrt{ \frac{ \sum_{i=1}^{n}{ (x_i - \bar x)^2 } }{n-1} } 
-\approx 1,422 \frac{\text{horas}}{\text{paciente}}
+\approx 2,004 \frac{\text{horas}}{\text{paciente}}
 $$
 
-Por ende, estimamos la **tasa de llegada** como $\lambda = \frac{1}{\bar x} \approx 1,09 \frac{\text{pacientes}}{\text{hora}}$
+Por ende, estimamos la **tasa de llegada** como $\lambda = \frac{1}{\bar x} \approx 0,676 \frac{\text{pacientes}}{\text{hora}}$
 
 Analizamos la distribución a la que se ajustan los periodos entre llegadas. Al ser la variable aleatoria la cantidad de tiempo entre evento y evento, sabemos que es no-negativa. Realizamos una **prueba de bondad de ajuste Chi Cuadrado** para probar si la distribución se ajusta a una exponencial. Utilizamos Chi Cuadrado en lugar de Kolmogorov-Smirnov porque poseemos una gran cantidad de muestras.
 
-Planteamos como hipótesis nula $H_0$ que las muestras corresponden a una distribución exponencial con media $0,917$, y como hipótesis alternativa, que corresponden a otra distribución. Tomamos un nivel de confianza $1 - \alpha = 0,90$.
+Planteamos como hipótesis nula $H_0$ que las muestras corresponden a una distribución exponencial con media $1,479$, y como hipótesis alternativa, que corresponden a otra distribución. Tomamos un nivel de confianza $1 - \alpha = 0,90$.
 
-Tomamos $k = \sqrt{n} \approx  43$ intervalos equiprobables, de frecuencias esperadas $F_e = \frac{n}{k} \approx 44,7$. Calculamos los límites de los intervalos a partir de la inversa de la función de probabilidad acumulada:
+Tomamos $k = \sqrt{n} \approx  34$ intervalos equiprobables, de frecuencias esperadas $F_e = \frac{n}{k} = 35$. Calculamos los límites de los intervalos a partir de la inversa de la función de probabilidad acumulada:
 
 $$
 \begin{aligned}
 &F(x) = 1-e^{- \lambda x} \\
 &\Rightarrow F^{-1}(x) = -\frac{1}{\lambda} \cdot \ln \left( 1 - \frac i k \right)\\
-&\Rightarrow x_i = -0,917 \cdot \ln \left( 1 - \frac{i}{43} \right)
+&\Rightarrow x_i = -1,479 \cdot \ln \left( 1 - \frac{i}{35} \right)
 \end{aligned}
 $$
 
-Luego los intervalos: $[x_0; \ x_1) = [0; \ 0,022), \, [x_1; \ x_2) = [0,022; \ 0,044), \, ...$ . Realizamos un conteo de las muestras incluídas en cada intervalo; las frecuencias observadas $F_o$.
+Luego los intervalos: $[x_0; \ x_1) = [0; \ 0,043)\, \ [x_1; \ x_2) = [0,022; \ 0,087)\, ...$ . Realizamos un conteo de las muestras incluídas en cada intervalo; las frecuencias observadas $F_o$.
 
 Calculamos el estimador:
 
 $$
-\chi^2 = \sum{ \frac{(F_o - F_e)^2}{F_e}} \approx 2695,5
+\chi^2 = \sum{ \frac{(F_o - F_e)^2}{F_e}} \approx 1183
 $$
 
-Poseemos $k-1-1 = 41$ grados de libertad restamos uno por haber estimado la media a partir de la muestra. Luego el estimador tabulado:
+Poseemos $k-1-1 = 32$ grados de libertad; restamos uno al haber estimado la media a partir de la muestra. Luego el estimador tabulado:
 
 $$
-\chi^2_{\alpha, \, k-1-1} = \chi^2_{0,10, \, 41} \approx 52,95
+\chi^2_{\alpha, \ k-1-1} = \chi^2_{0,10, \, 32} \approx 42,58
 $$
+> Ver apéndice: Análisis de entradas - Chi Cuadrado
 
 Vemos que el $\chi^2$ calculado es ampliamente superior al $\chi^2$ tabulado, por lo que rechazamos la $H_0$ con un nivel de confianza del 90%; la distribución de entradas no es exponencial.
 
 Detalles a considerar:
 
-- El primer intervalo, $[0; \, 0,022)$ (periodos de menos de 1,3 minutos entre entradas) aporta $\frac{(F_o - F_e)^2}{F_e} = 2455,6$ al estadístico, es decir, casi la totalidad del peso de los resultados.
+- El primer intervalo, $[0; \ 0,043)$ (periodos de menos de 2,5 minutos entre entradas) aporta $\frac{(F_o - F_e)^2}{F_e} = 967$ al estadístico, es decir, casi la totalidad del peso de los resultados.
+- El último intervalo, $[4,233; \ \infty)$ (entradas cada más de 4,2 horas) son el siguiente gran aporte al estadístico: $132$.
 - Los intervalos intermedios respetan una alineación equilibrada más próxima a la distribución esperada.
-- El último intervalo, $[3,449; \ \infty)$ (entradas cada más de 3,5 horas) son el siguiente gran aporte al estadístico.
 
 Esto sugiere que el proceso de llegadas al sistema no es homogéneo, sino que podría ser una mezcla entre:
 
 - Llegadas "reales" de pacientes, espaciadas, más similares a una exponencial.
 - Órdenes de internación cargadas en conjunto, casi simultáneamente, quizás por el mismo usuario o al inicio de determinado turno.
-- Periodos de más de 3,5 horas sin cargas de internaciones, quizás por caídas del sistema, parálisis administrativa de la institución o demás factores externos.
+- Periodos de más de 4 horas sin cargas de internaciones, quizás por caídas del sistema, parálisis administrativa de la institución o demás factores externos.
 
-Si bien se rechazó la hipótesis de que las llegadas siguen una distribución exponencial, la media $\lambda = 1,09 \frac{\text{pacientes}}{\text{hora}}$ sigue siendo válida como estimador de la tasa de llegadas, ya que se deriva directamente de la media muestral. La misma será utilizada como parámetro descriptivo del proceso GD en el modelo de colas.
+Si bien se rechazó la hipótesis de que las llegadas siguen una distribución exponencial, la media $\lambda = 0,676 \frac{\text{pacientes}}{\text{hora}}$ sigue siendo válida como estimador de la tasa de llegadas, ya que se deriva directamente de la media muestral. La misma será utilizada como parámetro descriptivo del proceso GD en el modelo de colas.
 
 ### Tiempos de servicio
 

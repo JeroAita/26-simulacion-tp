@@ -19,7 +19,7 @@ Un índice + barra de progreso del trabajo.
   - [x] Modelo
   - [x] Llegadas
   - [x] Tasas de servicio
-  - [ ] Llegadas y tiempos de servicio del quirófano
+  - [x] Llegadas y tiempos de servicio del quirófano
   - [ ] Medidas de rendimiento analíticas
 - [ ] [Experimentación](secciones/experimentacion.md)
   - [ ] Simulación

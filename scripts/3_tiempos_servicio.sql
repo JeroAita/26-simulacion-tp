@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 -- TIEMPOS DE SERVICIO
--- Requiere: datos_limpios y camas_seleccionadas (ver limpieza_y_llegadas.sql)
+-- Requiere: datos_limpios y camas_seleccionadas
 --
 -- Una fila por "estadía en cama regular" de las internaciones que ingresan por
 -- una de las camas seleccionadas:

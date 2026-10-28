@@ -153,6 +153,39 @@ Pueden identificarse dos grupos claramente diferenciados: las camas `230`, `231`
 
 La tasa $\mu$ de cada cama se utilizará como parámetro descriptivo del proceso GD en el modelo de colas.
 
+### Llegadas y tiempos de servicio del quirófano
+
+Analizamos ahora el quirófano, la cama `241`, que está en serie con el resto de camas. Consideramos únicamente a los pacientes cuya internación comenzó en alguna de las 10 camas seleccionadas.
+
+Cada evento "Pase de cama" hacia la cama `241` es una llegada al quirófano. La salida del quirófano es el primer evento posterior a que sea un pase a otra cama o un "Egreso". Poseemos $83$ visitas al quirófano, por lo que $n=82$ periodos entre llegadas. Calculamos la media muestral y el desvío estándar de los periodos entre las llegadas:
+
+$$
+\bar x \approx 20,878 \frac{\text{horas}}{\text{paciente}} 
+\, \qquad 
+s \approx 32,316 \frac{\text{horas}}{\text{paciente}}
+$$
+
+Por ende, estimamos la **tasa de llegada al quirófano** como $\lambda_q = \frac{1}{\bar x} \approx 0,048 \frac{\text{pacientes}}{\text{hora}}$.
+
+$83$ de los $1268$ servicios completos (considerando todas las camas, no sólo las seleccionadas) pasan al quirófano, es decir, alrededor del $6,5\%$.
+
+Todas las visitas al quirófano poseen una salida registrada. Analizamos el periodo entre las salidas del quirófano:
+
+$$
+\bar x \approx 1,923 \frac{\text{horas}}{\text{paciente}} 
+\, \qquad 
+s \approx 2,194 \frac{\text{horas}}{\text{paciente}}
+$$
+
+Obtenemos que la **tasa de servicio del quirófano** es $\mu_q = \frac{1}{\bar x} \approx 0,520 \frac{\text{pacientes}}{\text{hora}}$.
+
+### Medidas de rendimiento analíticas
+
+(...)
+
+
+
+
 
 
 

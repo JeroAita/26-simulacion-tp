@@ -2,9 +2,10 @@
 
 Para analizar este sistema, lo modelamos a partir de la **Teoría de colas** con las siguientes reglas:
 
-- Un paciente es una entidad/cliente.
-- El evento "Orden de internación" es la llegada de un paciente al sistema. Queda encolado hasta que ocurre el evento "Ingreso", que lo ubica en una cama.
-- Una cama es un servidor.
+- Un paciente es una entidad / cliente.
+- Las camas con ID $223$, $225$, $226$, $227$ y $228$ son los $c = 5$ servidores en paralelo. Las consideraremos las camas "internas" o del "sub-sistema seleccionado".
+- Entrada: Un evento "Orden de internación" es la llegada de un paciente al sistema. Queda encolado hasta que ocurre el evento "Ingreso", que lo ubica en una de las camas del sub-sistema. También puede ocurrir que se ubique a un paciente en una de estas camas a partir de un evento "Pase de cama" desde una cama regular externa. En ese caso, el tiempo del paciente encolado queda sujeto al tiempo que pasó en camas externas.
+- Salida:  Un evento "Egreso" o un "Pase de cama" desde una de las camas del sub-sistema hacia una cama externa es la salida del paciente del sistema.
 - Existe una cama especial llamada quirófano, en serie con todas las camas. Se llega al quirófano y se sale del quirófano mediante un evento "Pase de cama". Salir del quirófano implicaría volver a la cola original, pero siempre se retorna a una cama. Por lo tanto, se tiene una cola con prioridades.
 - La llegada de un paciente es aleatoria, siguiendo una distribución desconocida.
 - El egreso de un paciente es aleatorio, siguiendo una distribución desconocida.
@@ -12,46 +13,28 @@ Para analizar este sistema, lo modelamos a partir de la **Teoría de colas** con
 Bajo la notación de Kendall, sería un modelo multi-servidor de cola infinita y fuente infinita: 
 
 $$
-(GD|GD|c):(GD|\infty|\infty)
+(GD|GD|5):(GD|\infty|\infty)
 $$
 
 Con este modelo sabemos que:
 
 - La tasa de llegada efectiva es igual a la tasa de llegada, porque la cola es infinita: $\lambda_{eff} = \lambda_n$
 - La tasa de llegada no depende del estado del sistema: $\lambda_n = \lambda$
-- El tiempo de servicio del sistema escala con el tiempo de servicio de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados). Aun así, contemplaremos que los servidores son heterogéneos; cada uno tendrá su tiempo de servicio.
+- El tiempo de servicio del sistema escala con el tiempo de servicio de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados). Aun así, contemplaremos que los servidores podrían ser heterogéneos; cada uno con su tiempo de servicio.
 
+Ignoraremos los eventos de tipo "Pase de cama" que ocurran entre las camas del sub-sistema seleccionado, al no representar un cambio en la cantidad de clientes en el sistema. El tiempo de servicio a un paciente se calcularía entonces como la diferencia entre la fecha-hora de egreso, paso a quirófano o paso a cama externa, y la fecha-hora de ingreso o pase a cama interna. Esto se desarrollará con mayor detalle más adelante, cuando analicemos los tiempos de servicio.
 
-Retomando de los datos disponibles: podríamos tomar $c = 74$ camas regulares en paralelo. Identificamos que la cama quirófano es aquella con `cama_id = 241` desde el sistema, reafirmado al ver que a esta cama en particular los pacientes llegan únicamente a través de pases de cama.
-
-Aun así, para el alcance de este trabajo, necesitamos acotar la cantidad de servidores. **Tomaremos únicamente $c = 10$ camas**, seleccionando aquellas con mayor cantidad de eventos de tipo "Ingreso"  asociados:
-
-| ID | Ingresos |
-| :---: | :---: |
-|201 |247 |
-|202|183 |
-|203 |163 |
-|273|155 |
-|230|87|
-|275|82|
-|231|79|
-|232|71|
-|200|67|
-|243|67|
-
-Estas camas representan casi el 70% de la actividad de las muestras; al acumular 1201 eventos de tipo Ingreso de los 1756 en total.
-
-Ignoraremos los eventos de tipo "Pase de cama" que no involucren a la cama `241`, ya que al ser movimientos de entidades entre servidores en paralelo no modifican la cantidad de servidores ocupados. En consecuencia, consideraremos que el paciente continúa en la misma cama desde su ingreso hasta que ocurra un pase de cama al quirófano o hasta su egreso. El tiempo de servicio a un paciente se calcularía entonces como la diferencia entre la fecha-hora de egreso o paso a quirófano y la fecha-hora de ingreso. Esto se desarrollará con mayor detalle más adelante, cuando analicemos los tiempos de servicio.
-
-Además, ignoraremos los eventos de tipo "Alta médica", ya que no implican un movimiento de entidad, sino que representan una etapa burocrática necesaria previa al evento de tipo "Egreso", que sí implica un movimiento de entidad.
-
-Con estas bases definidas, presentamos el diagrama de modelo de colas:
+Con estas bases definidas, el diagrama de modelo de colas:
 
 ![Diagrama de modelo de colas](../src/simulacion-tp_final-diagrama_modelo.png)
 
 ### Tasa de llegadas
 
-Filtramos los eventos de tipo "Orden de internación" con el objetivo de analizar las llegadas al sistema y comprender el periodo entre ellas.
+Filtramos eventos cuyos destinos sean una de las camas seleccionadas, con el objetivo de analizar las llegadas al sistema y comprender el periodo entre ellas.
+
+> Script SQL 3: ingresos por cama
+
+---
 
 ![Captura de registro de eventos](../src/simulacion-tp_final-muestras-2.png)
 

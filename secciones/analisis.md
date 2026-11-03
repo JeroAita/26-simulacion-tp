@@ -20,7 +20,7 @@ Con este modelo sabemos que:
 
 - La tasa de llegada efectiva es igual a la tasa de llegada, porque la cola es infinita: $\lambda_{eff} = \lambda_n$
 - La tasa de llegada no depende del estado del sistema: $\lambda_n = \lambda$
-- El tiempo de servicio del sistema escala con el tiempo de servicio de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados). Aun así, contemplaremos que los servidores podrían ser heterogéneos; cada uno con su tiempo de servicio.
+- El tiempo de servicio del sistema escala con el tiempo de servicio de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados).
 
 Ignoraremos los eventos de tipo "Pase de cama" que ocurran entre las camas del sub-sistema seleccionado, al no representar un cambio en la cantidad de clientes en el sistema. El tiempo de servicio a un paciente se calcularía entonces como la diferencia entre la fecha-hora de egreso, paso a quirófano o paso a cama externa, y la fecha-hora de ingreso o pase a cama interna. Esto se desarrollará con mayor detalle más adelante, cuando analicemos los tiempos de servicio.
 
@@ -69,21 +69,23 @@ Siguiendo las reglas del modelo, el tiempo de servicio de un paciente es la dife
 
 ![](../src/servicios.png)
 
-Observamos $n=350$ servicios completos, con un tiempo de servicio medio global de $18,1 \frac{\text{ horas }}{\text{ paciente }}$, desvío $29,83$. Esto implicaría una **tasa de servicio del sistema**: 
+Observamos $n=350$ servicios completos, con un tiempo de servicio medio global de $18,1 \frac{\text{ horas }}{\text{ paciente }}$, desvío $7,48$. Esto implicaría una **tasa de servicio del sistema**: 
 
 $$
-\mu = 0,06  \frac{\text{ pacientes }}{\text{ hora }}
+\mu \approx 0,05  \frac{\text{ pacientes }}{\text{ hora }}
 $$
 
 Separando por cama de inicio de servicio,
 
 | Cama | n | Media de horas |  Tasa de servicio |
 |:---:|:---:|:---:|:---:|
-|223|81|16,88|$\mu_{233} = 0,059$
-|226|75|18,01|$\mu_{236} = 0,056$
-|228|68|18,63|$\mu_{238} = 0,054$
-|225|64|22,23|$\mu_{235} = 0,045$
-|227|62|14,78|$\mu_{237} = 0,068$
+|223|81|16,88|$\mu_{223} = 0,059$
+|226|75|18,01|$\mu_{226} = 0,056$
+|228|68|18,63|$\mu_{228} = 0,054$
+|225|64|22,23|$\mu_{225} = 0,045$
+|227|62|14,78|$\mu_{227} = 0,068$
+
+Por simplicidad, trabajaremos con servidores homogéneos tomando la tasa de servicio del sistema, que es el valor promedio de las tasas de servicios de los servidores.
 
 Además, vemos que el $49\%$ de las internaciones fueron primeras instancias, es decir, primera vez que el paciente circuló por el sub-sistema antes de egresar o pasar de cama. $29\%$ de las internaciones fueron segundas veces que los pacientes circularon por el sub-sistema, como en situaciones en las que retornan del quirófano. $14\%$ fueron terceras instancias, $5\%$ fueron cuartas instancias, $0,2\%$ quintas instancias y hubo una única sexta instancia.
 
@@ -102,19 +104,62 @@ Tenemos  $65$ observaciones, una media de $1,51 \frac{\text{ horas }}{\text{ pac
 Por lo tanto, las tasas de llegada y tiempos de servicio del quirófano:
 
 $$
-\lambda = 0,04  \frac{\text{ pacientes }}{\text{ hora }}
+\lambda_q = 0,04  \frac{\text{ pacientes }}{\text{ hora }}
 , \qquad
-\mu = 0,66  \frac{\text{ pacientes }}{\text{ hora }}
+\mu_q = 0,66  \frac{\text{ pacientes }}{\text{ hora }}
 $$
-
 
 ### Medidas de rendimiento analíticas
 
-(...)
+El análisis de medidas de rendimiento sólo es válido si el sistema tiende a estado estable. Calculamos el **factor de utilización**:
 
+$$
+\rho = \frac{\lambda}{c \cdot \mu} = \frac{0,2}{5 \cdot 0,06} \approx 0,73
+$$
 
+Como $\rho < 1$, el sistema tiende a estado estable. Para el quirófano, $\rho_q = \frac{0,04}{0,66} \approx 0,06$.
 
+El **número esperado de servidores ocupados**, por su fórmula de Little:
 
+$$
+\bar C = \frac{\lambda_{eff}}{\mu} = \frac{\lambda}{\mu} \approx 3,66 \ \text{camas}
+$$
 
+Si bien trabajamos sobre un modelo G/G/c, las siguientes medidas de rendimiento las calculamos utilizando a partir de la fórmula de probabilidad de $n$ clientes en el sistema del modelo M/M/c como marco de referencia. Las mismas son aproximaciones de referencia; la simulación por software proveerá medidas más fieles al modelo.
 
+Con $a = \lambda / \mu$,
+$$
+P_0 = \left[ 
+\sum_{n=0}^{c-1}{ \frac{a^n}{n!} } + \frac{ a^c }{ c! (1 - \rho) }
+\right] \approx 0,02
+$$
 
+Luego:
+
+$$
+P(n \geq c) = \frac{ a^c }{ c! (1 - \rho) } \cdot P_0 \approx 0,43
+$$
+
+El **número esperado de clientes en la cola**:
+
+$$
+L_q = 0,43 \cdot \frac{\rho}{1-\rho} \approx 1,17 \ \text{pacientes}
+$$
+
+El **tiempo esperado de espera en la cola**:
+
+$$
+W_q = \frac{L_q}{\lambda} \approx 5,8 \ \text{h}
+$$
+
+El **tiempo esperado de espera en el sistema**:
+
+$$
+W_s = W_q + \frac{1}{\mu} \approx 23,9 \ \text{h}
+$$
+
+El **número esperado de clientes en el sistema**:
+
+$$
+L_s = L_q + \frac{\lambda}{\mu} \approx 4,8 \ \text{pacientes}
+$$

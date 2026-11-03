@@ -84,7 +84,7 @@ FROM periodos;
 
 -- -------------------------------------------------------
 
--- Script SQL 6: tiempos de servicio del quirófano
+-- Tiempos de servicio del quirófano
 -- Calcula el tiempo de servicio (en horas) de cada estancia de un paciente
 -- en el quirófano (cama 241), considerando únicamente los pases originados
 -- desde las camas del sub-sistema seleccionado.

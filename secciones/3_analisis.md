@@ -71,7 +71,7 @@ Siguiendo las reglas del modelo, el tiempo de servicio de un paciente es la dife
 
 ![](../src/servicios.png)
 
-Observamos $n=350$ servicios completos, con un tiempo de servicio medio global de $18,1 \frac{\text{ horas }}{\text{ paciente }}$, desvío $7,48$. Esto implicaría una **tasa de servicio del sistema**: 
+Observamos $n=350$ servicios completos, con un tiempo de servicio medio global de $18,1 \frac{\text{ horas }}{\text{ paciente }}$, desvío $29,88$. Esto implicaría una **tasa de servicio del sistema**: 
 
 $$
 \mu \approx 0,05  \frac{\text{ pacientes }}{\text{ hora }}

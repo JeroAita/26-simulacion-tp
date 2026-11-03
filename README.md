@@ -39,6 +39,7 @@ Un índice + barra de progreso del trabajo.
 - [ ] [Conclusiones](secciones/7_conclusiones.md)
 - [ ] Apéndices
 
+
 ## Archivos
 
 Entregables:

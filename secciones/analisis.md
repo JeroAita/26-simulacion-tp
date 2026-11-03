@@ -32,109 +32,52 @@ Con estas bases definidas, el diagrama de modelo de colas:
 
 Filtramos eventos cuyos destinos sean una de las camas seleccionadas, con el objetivo de analizar las llegadas al sistema y comprender el periodo entre ellas.
 
-> Script SQL 3: ingresos por cama
+> Script SQL 3: llegadas
 
----
+![](../src/llegadas.png)
 
-![Captura de registro de eventos](../src/simulacion-tp_final-muestras-2.png)
-
-Teniendo $n = 1190$ eventos de tipo Orden de internación, calculamos la media muestral y el desvío estándar:
+Se registraron $355$ llegadas de pacientes a alguna de las camas del sub-sistema, siendo el $86\%$ pases de cama desde una cama regular externa. Con ello, tenemos $n = 354$ periodos entre las llegadas:
 
 $$
-\bar x = \frac{ \sum_{i=1}^{n}{ x_i } }{n} 
-\approx 1,479 \frac{\text{horas}}{\text{paciente}} 
-\, \qquad 
-s = \sqrt{ \frac{ \sum_{i=1}^{n}{ (x_i - \bar x)^2 } }{n-1} } 
-\approx 2,004 \frac{\text{horas}}{\text{paciente}}
+\bar x = \frac{\sum_{i=1}^{n}{ x_i }}{n} \approx 4,95 \frac{\text{horas}}{\text{paciente}}
+\ , \qquad
+s = \sqrt {\frac{\sum_{i=1}^{n}{ (x_i - \bar x)^2 }}{n-1}} \approx 5,84 \frac{\text{horas}}{\text{paciente}}
 $$
+Por ende, estimamos la **tasa de llegada** como $\lambda = \frac{1}{\bar x} \approx 0,2 \frac{\text{pacientes}}{\text{hora}}$.
 
-Por ende, estimamos la **tasa de llegada** como $\lambda = \frac{1}{\bar x} \approx 0,676 \frac{\text{pacientes}}{\text{hora}}$
+Realizamos una **prueba de bondad de ajuste Chi Cuadrado** para comprobar si la distribución se ajusta a una exponencial. Obtuvimos un estimador $\chi^2 \approx 49,21$, mayor al valor crítico tabulado $\chi^2_{0,10, \ 17} \approx 24,77$, por lo que rechazamos la hipótesis nula: los datos no se ajustan a una exponencial.
 
-Analizamos la distribución a la que se ajustan los periodos entre llegadas. Al ser la variable aleatoria la cantidad de tiempo entre evento y evento, sabemos que es no-negativa. Realizamos una **prueba de bondad de ajuste Chi Cuadrado** para probar si la distribución se ajusta a una exponencial. Utilizamos Chi Cuadrado en lugar de Kolmogorov-Smirnov porque poseemos una gran cantidad de muestras.
-
-Planteamos como hipótesis nula $H_0$ que las muestras corresponden a una distribución exponencial con media $1,479$, y como hipótesis alternativa, que corresponden a otra distribución. Tomamos un nivel de confianza $1 - \alpha = 0,90$.
-
-Tomamos $k = \sqrt{n} \approx  34$ intervalos equiprobables, de frecuencias esperadas $F_e = \frac{n}{k} = 35$. Calculamos los límites de los intervalos a partir de la inversa de la función de probabilidad acumulada:
-
-$$
-\begin{aligned}
-&F(x) = 1-e^{- \lambda x} \\
-&\Rightarrow F^{-1}(x) = -\frac{1}{\lambda} \cdot \ln \left( 1 - \frac i k \right)\\
-&\Rightarrow x_i = -1,479 \cdot \ln \left( 1 - \frac{i}{35} \right)
-\end{aligned}
-$$
-
-Luego los intervalos: $[x_0; \ x_1) = [0; \ 0,043)\, \ [x_1; \ x_2) = [0,022; \ 0,087)\, ...$ . Realizamos un conteo de las muestras incluídas en cada intervalo; las frecuencias observadas $F_o$.
-
-Calculamos el estimador:
-
-$$
-\chi^2 = \sum{ \frac{(F_o - F_e)^2}{F_e}} \approx 1183
-$$
-
-Poseemos $k-1-1 = 32$ grados de libertad; restamos uno al haber estimado la media a partir de la muestra. Luego el estimador tabulado:
-
-$$
-\chi^2_{\alpha, \ k-1-1} = \chi^2_{0,10, \, 32} \approx 42,58
-$$
 > Ver apéndice: Análisis de llegadas - Chi Cuadrado
 
-Vemos que el $\chi^2$ calculado es ampliamente superior al $\chi^2$ tabulado, por lo que rechazamos la $H_0$ con un nivel de confianza del 90%; la distribución de entradas no es exponencial.
+Si bien se rechazó la hipótesis de que las llegadas siguen una distribución exponencial, la media $\lambda = 0,2 \frac{\text{pacientes}}{\text{hora}}$ sigue siendo válida como estimador de la tasa de llegadas, ya que se deriva directamente de la media muestral. La misma será utilizada como parámetro descriptivo del proceso GD en el modelo de colas.
 
-Detalles a considerar:
+Como detalle, podemos ver que alrededor del $45\%$ de los periodos entre llegadas son menores a $3$ horas. El histograma:
 
-- El primer intervalo, $[0; \ 0,043)$ (periodos de menos de 2,5 minutos entre entradas) aporta $\frac{(F_o - F_e)^2}{F_e} = 967$ al estadístico, es decir, casi la totalidad del peso de los resultados.
-- El último intervalo, $[4,233; \ \infty)$ (entradas cada más de 4,2 horas) son el siguiente gran aporte al estadístico: $132$.
-- Los intervalos intermedios respetan una alineación equilibrada más próxima a la distribución esperada.
-
-Esto sugiere que el proceso de llegadas al sistema no es homogéneo, sino que podría ser una mezcla entre:
-
-- Llegadas "reales" de pacientes, espaciadas, más similares a una exponencial.
-- Órdenes de internación cargadas en conjunto, casi simultáneamente, quizás por el mismo usuario o al inicio de determinado turno.
-- Periodos de más de 4 horas sin cargas de internaciones, quizás por caídas del sistema, parálisis administrativa de la institución o demás factores externos.
-
-Si bien se rechazó la hipótesis de que las llegadas siguen una distribución exponencial, la media $\lambda = 0,676 \frac{\text{pacientes}}{\text{hora}}$ sigue siendo válida como estimador de la tasa de llegadas, ya que se deriva directamente de la media muestral. La misma será utilizada como parámetro descriptivo del proceso GD en el modelo de colas.
+![](../src/llegadas_histograma.png)
 
 ### Tasas de servicio
 
-Similar al análisis de las llegadas al sistema, analizaremos ahora el tiempo que cada paciente permanece en una cama; es decir, el tiempo de servicio.
+Similar al análisis de las llegadas al sistema, analizaremos ahora el tiempo que un paciente permanece en una de las camas seleccionadas; es decir, el tiempo de servicio.
 
-Siguiendo las reglas del modelo, el tiempo de servicio de un paciente es la diferencia entre la fecha-hora de su egreso (o de su pase de cama al quirófano, lo que ocurra primero) y la fecha-hora de su evento ingreso. Se ignoran los pases de cama entre camas regulares y las altas médicas.
+Siguiendo las reglas del modelo, el tiempo de servicio de un paciente es la diferencia entre la fecha-hora de su egreso de su pase de cama al quirófano o una cama externa, y la fecha-hora del evento ingreso o pase de cama con el que llegó a la cama. Se ignoran los pases de cama entre camas dentro del sub-sistema y las altas médicas al no representar un movimiento de entidades dentro del sistema.
 
-Poseemos $1201$ internaciones que ingresan por alguna de las 10 camas seleccionadas. De ellas, $10$ no tienen un fin registrado porque los datos de la muestra terminan antes de que esos pacientes egresen, por lo que las descartamos. Nos quedan $n = 1191$ tiempos de servicio: $1145$ terminan en un egreso y $46$ en un pase al quirófano.
+> Script SQL 4: tiempos de servicio
 
-Las estadías posteriores al quirófano (cuando el paciente vuelve a una cama) se analizan junto con el quirófano, en la próxima sección.
+![](../src/servicios.png)
 
-Calculando la media y el desvío globales,
+Observamos $n=350$ servicios completos, con un tiempo de servicio medio global de $18,1 \frac{\text{ horas }}{\text{ paciente }}$, desvío $29,83$. Esto implicaría una tasa de servicio del sistema de $\mu = 0,06  \frac{\text{ pacientes }}{\text{ hora }}$
 
-$$
-\bar x \approx 11,746 \frac{\text{horas}}{\text{paciente}} 
-\, \qquad 
-s \approx 26,512 \frac{\text{horas}}{\text{paciente}}
-$$
+Separando por cama de inicio de servicio,
 
-Estimamos la **tasa de servicio** como $\mu = \frac{1}{\bar x} \approx 0,085 \frac{\text{pacientes}}{\text{hora}}$ por cama.
+| Cama | n | Media de horas |  Tasa de servicio |
+|:---:|:---:|:---:|:---:|
+|223|81|16,88|$\mu_{233} = 0,059$
+|226|75|18,01|$\mu_{236} = 0,056$
+|228|68|18,63|$\mu_{238} = 0,054$
+|225|64|22,23|$\mu_{235} = 0,045$
+|227|62|14,78|$\mu_{237} = 0,068$
 
-Calculamos la media muestral y el desvío estándar de tiempo de servicio para cada una de las camas seleccionadas:
-
-| Cama | $n$ | Media (h) | Desvío (h) | $\mu$ ($\frac{\text{pacientes}}{\text{hora}}$) |
-| :--: | :-: | :-------: | :--------:  | :-----------: |
-| `201` | 246 | 11,89 | 29,26 | 0,084 |
-| `202` | 180 | 11,21 | 19,42 | 0,089 |
-| `203` | 162 | 9,51 | 16,11 | 0,105 |
-| `273` | 153 | 11,41 | 28,53 | 0,088 |
-| `230` | 87 | 6,85 | 5,43 | 0,146 |
-| `275` | 82 | 32,44 | 52,51 | 0,031 |
-| `231` | 78 | 5,96 | 4,61 | 0,168 |
-| `232` | 70 | 5,62 | 4,02 | 0,178 |
-| `200` | 67 | 17,83 | 41,54 | 0,056 |
-| `243` | 66 | 6,87 | 7,73 | 0,146 |
-
-Vemos que los servidores son claramente heterogéneos: las medias van desde $5,6$ hasta $32,4$ horas de tiempo de servicio.
-
-Pueden identificarse dos grupos claramente diferenciados: las camas `230`, `231`, `232` y `243` con mayor tasa de servicio y menor variabilidad, y el resto con menor tasa de servicio y mayor variabilidad. El primer grupo mencionado representa alrededor del $33\%$ de la cantidad de internaciones acumuladas entre ambos grupos.
-
-La tasa $\mu$ de cada cama se utilizará como parámetro descriptivo del proceso GD en el modelo de colas.
+Además, vemos que el $49\%$ de las internaciones fueron primeras instancias, es decir, primera vez que el paciente circuló por el sub-sistema antes de egresar o pasar de cama. $29%$ de las internaciones fueron segundas veces que los pacientes circularon por el sub-sistema, como en situaciones en las que retornan del quirófano. $14\%$ fueron terceras instancias, $5\%$ fueron cuartas instancias, $0,2\%$ quintas instancias y hubo una única sexta instancia.
 
 ### Llegadas y tiempos de servicio del quirófano
 

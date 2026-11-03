@@ -57,6 +57,6 @@ Un análisis prematuro nos indicaría modelar cada cama como un servidor; $c = 7
 |225|12| 14
 |227|12|14
 
-Desde este subconjunto de camas ocurre el $40\%$ de los pases al quirófano, y a la vez, son el destino del $45\%$ de los retornos del quirófano, siendo que el $60\%$ de las camas poseen 0 pases hacia y desde el quirófano.. Las siguientes camas más relacionadas al quirófano son las demás camas con ID entre 220 y 229, de lo que podemos concluir que las mismas corresponden al espacio pre-quirúrgico y post-quirúrgico del hospital. 
+Desde este subconjunto de camas ocurre el $40\%$ de los pases al quirófano, y a la vez, son el destino del $45\%$ de los retornos del quirófano, siendo que el $60\%$ de las camas poseen 0 pases hacia y desde el quirófano. Las siguientes camas más relacionadas al quirófano son las demás camas con ID entre 220 y 229, de lo que podemos concluir que las mismas corresponden al espacio pre-quirúrgico y post-quirúrgico del hospital. 
 
 Analizaremos el comportamiento de este subconjunto seleccionado de camas a partir de la teoría de colas.

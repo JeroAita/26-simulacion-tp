@@ -21,9 +21,9 @@ Un índice + barra de progreso del trabajo.
   - [x] Tasas de servicio
   - [x] Llegadas y tiempos de servicio del quirófano
   - [x] Medidas de rendimiento analíticas
-- [ ] [Modelo de simulación](secciones/4_simulacion.md)
-  - [ ] Medidas de rendimiento a estimar
-  - [ ] Distribuciones elegidas
+- [x] [Modelo de simulación](secciones/4_simulacion.md)
+  - [x] Medidas de rendimiento a estimar
+  - [x] Distribuciones elegidas
   - [ ] Implementación en MATLAB/SimEvents
   - [ ] Verificación y validación
 - [ ] [Planeamiento táctico](secciones/5_tactico.md)

@@ -43,7 +43,11 @@ $$
 \ , \qquad
 s = \sqrt {\frac{\sum_{i=1}^{n}{ (x_i - \bar x)^2 }}{n-1}} \approx 5,84 \frac{\text{horas}}{\text{paciente}}
 $$
-Por ende, estimamos la **tasa de llegada** como $\lambda = \frac{1}{\bar x} \approx 0,2 \frac{\text{pacientes}}{\text{hora}}$.
+Por ende, estimamos la **tasa de llegada** como:
+
+$$
+\lambda = \frac{1}{\bar x} \approx 0,2 \frac{\text{pacientes}}{\text{hora}}
+$$
 
 Realizamos una **prueba de bondad de ajuste Chi Cuadrado** para comprobar si la distribución se ajusta a una exponencial. Obtuvimos un estimador $\chi^2 \approx 49,21$, mayor al valor crítico tabulado $\chi^2_{0,10, \ 17} \approx 24,77$, por lo que rechazamos la hipótesis nula: los datos no se ajustan a una exponencial.
 
@@ -65,7 +69,11 @@ Siguiendo las reglas del modelo, el tiempo de servicio de un paciente es la dife
 
 ![](../src/servicios.png)
 
-Observamos $n=350$ servicios completos, con un tiempo de servicio medio global de $18,1 \frac{\text{ horas }}{\text{ paciente }}$, desvío $29,83$. Esto implicaría una tasa de servicio del sistema de $\mu = 0,06  \frac{\text{ pacientes }}{\text{ hora }}$
+Observamos $n=350$ servicios completos, con un tiempo de servicio medio global de $18,1 \frac{\text{ horas }}{\text{ paciente }}$, desvío $29,83$. Esto implicaría una **tasa de servicio del sistema**: 
+
+$$
+\mu = 0,06  \frac{\text{ pacientes }}{\text{ hora }}
+$$
 
 Separando por cama de inicio de servicio,
 
@@ -77,33 +85,28 @@ Separando por cama de inicio de servicio,
 |225|64|22,23|$\mu_{235} = 0,045$
 |227|62|14,78|$\mu_{237} = 0,068$
 
-Además, vemos que el $49\%$ de las internaciones fueron primeras instancias, es decir, primera vez que el paciente circuló por el sub-sistema antes de egresar o pasar de cama. $29%$ de las internaciones fueron segundas veces que los pacientes circularon por el sub-sistema, como en situaciones en las que retornan del quirófano. $14\%$ fueron terceras instancias, $5\%$ fueron cuartas instancias, $0,2\%$ quintas instancias y hubo una única sexta instancia.
+Además, vemos que el $49\%$ de las internaciones fueron primeras instancias, es decir, primera vez que el paciente circuló por el sub-sistema antes de egresar o pasar de cama. $29\%$ de las internaciones fueron segundas veces que los pacientes circularon por el sub-sistema, como en situaciones en las que retornan del quirófano. $14\%$ fueron terceras instancias, $5\%$ fueron cuartas instancias, $0,2\%$ quintas instancias y hubo una única sexta instancia.
 
 ### Llegadas y tiempos de servicio del quirófano
 
-Analizamos ahora el quirófano, la cama `241`, que está en serie con el resto de camas. Consideramos únicamente a los pacientes cuya internación comenzó en alguna de las 10 camas seleccionadas.
+Analizamos ahora el quirófano, la cama $241$, que está en serie con el resto de camas. Consideramos como llegadas los pases de cama dirigidos hacia la $241$ originados desde alguna de las camas del sub-sistema.
 
-Cada evento "Pase de cama" hacia la cama `241` es una llegada al quirófano. La salida del quirófano es el primer evento posterior a que sea un pase a otra cama o un "Egreso". Poseemos $83$ visitas al quirófano, por lo que $n=82$ periodos entre llegadas. Calculamos la media muestral y el desvío estándar de los periodos entre las llegadas:
+> Script SQL 5: Llegadas y tiempos de servicio del quirófano
 
-$$
-\bar x \approx 20,878 \frac{\text{horas}}{\text{paciente}} 
-\, \qquad 
-s \approx 32,316 \frac{\text{horas}}{\text{paciente}}
-$$
+Tenemos $68$ observaciones, una media de $26,07 \frac{\text{ horas }}{\text{ paciente }}$ y desvío estándar $31,59$.
 
-Por ende, estimamos la **tasa de llegada al quirófano** como $\lambda_q = \frac{1}{\bar x} \approx 0,048 \frac{\text{pacientes}}{\text{hora}}$.
+Calculamos los tiempos de servicio como las diferencias entre los pases de cama originados desde la cama $241$ destinados a alguna cama del sub-sistema, y los pases de cama originados desde una cama del sub-sistema destinados a la cama quirófano.
 
-$83$ de los $1268$ servicios completos (considerando todas las camas, no sólo las seleccionadas) pasan al quirófano, es decir, alrededor del $6,5\%$.
+Tenemos  $65$ observaciones, una media de $1,51 \frac{\text{ horas }}{\text{ paciente }}$ y desvío estándar $2,07$.
 
-Todas las visitas al quirófano poseen una salida registrada. Analizamos el periodo entre las salidas del quirófano:
+Por lo tanto, las tasas de llegada y tiempos de servicio del quirófano:
 
 $$
-\bar x \approx 1,923 \frac{\text{horas}}{\text{paciente}} 
-\, \qquad 
-s \approx 2,194 \frac{\text{horas}}{\text{paciente}}
+\lambda = 0,04  \frac{\text{ pacientes }}{\text{ hora }}
+, \qquad
+\mu = 0,66  \frac{\text{ pacientes }}{\text{ hora }}
 $$
 
-Obtenemos que la **tasa de servicio del quirófano** es $\mu_q = \frac{1}{\bar x} \approx 0,520 \frac{\text{pacientes}}{\text{hora}}$.
 
 ### Medidas de rendimiento analíticas
 

@@ -7,38 +7,36 @@ Repositorio para organizar la redacción del trabajo práctico final de la asign
 
 Un índice + barra de progreso del trabajo.
 
-- [x] [Portada](secciones/portada.md)
+- [x] [Portada](secciones/1_portada.md)
   - [x] Autores
   - [x] Cátedra
   - [x] índice
   - [x] Consigna
-- [x] [Introducción](secciones/introduccion.md)
+- [x] [Introducción](secciones/2_introduccion.md)
   - [x] Sistema elegido
   - [x] Datos
-- [ ] [Análisis](secciones/analisis.md)
+- [x] [Análisis](secciones/3_analisis.md)
   - [x] Modelo
   - [x] Llegadas
   - [x] Tasas de servicio
   - [x] Llegadas y tiempos de servicio del quirófano
-  - [ ] Medidas de rendimiento analíticas
-- [ ] Modelo de simulación
-  - [ ] Variables de estado
-  - [ ] Eventos
-  - [ ] Lista de eventos
-  - [ ] Diagrama de flujo
-  - [ ] Implementación en MATLAB
-  - [ ] Validación
-- [ ] [Experimentación: planeamiento táctico](secciones/experimentacion.md)
-  - [ ] Medidas de rendimiento elegidas
-  - [ ] Transitorio
-  - [ ] Número de observaciones
-  - [ ] Número y longitud de corridas
-  - [ ] Resultados, IC y tests de hipótesis
+  - [x] Medidas de rendimiento analíticas
+- [ ] [Modelo de simulación](secciones/4_simulacion.md)
+  - [ ] Medidas de rendimiento a estimar
+  - [ ] Distribuciones elegidas
+  - [ ] Implementación en MATLAB/SimEvents
+  - [ ] Verificación y validación
+- [ ] [Planeamiento táctico](secciones/5_tactico.md)
+  - [ ] Método para reunir observaciones
+  - [ ] Eliminación de transitorio
+  - [ ] Número de corridas y longitud
+- [ ] [Resultados y propuesta de optimización](secciones/6_resultados.md)
+  - [ ] Resultados e IC
+  - [ ] Comparación con lo analítico y test de hipótesis
   - [ ] Reducción de varianza
-- [ ] [Optimización](secciones/optimizacion.md)
   - [ ] Modelo alternativo
   - [ ] Comparación
-- [ ] [Conclusiones](secciones/conclusiones.md)
+- [ ] [Conclusiones](secciones/7_conclusiones.md)
 - [ ] Apéndices
 
 ## Archivos

@@ -1,3 +1,5 @@
+## Análisis
+
 ### Modelo
 
 Para analizar este sistema, lo modelamos a partir de la **Teoría de colas** con las siguientes reglas:
@@ -53,7 +55,7 @@ Realizamos una **prueba de bondad de ajuste Chi Cuadrado** para comprobar si la 
 
 > Ver apéndice: Análisis de llegadas - Chi Cuadrado
 
-Si bien se rechazó la hipótesis de que las llegadas siguen una distribución exponencial, la media $\lambda = 0,2 \frac{\text{pacientes}}{\text{hora}}$ sigue siendo válida como estimador de la tasa de llegadas, ya que se deriva directamente de la media muestral. La misma será utilizada como parámetro descriptivo del proceso GD en el modelo de colas.
+Si bien se rechazó la hipótesis de que las llegadas siguen una distribución exponencial, la media $\lambda = 0,2 \frac{\text{pacientes}}{\text{hora}}$ sigue siendo válida como estimador de la tasa de llegadas, ya que se deriva directamente de la media muestral. Para la simulación, se generarán valores a partir de la distribución empírica.
 
 Como detalle, podemos ver que alrededor del $45\%$ de los periodos entre llegadas son menores a $3$ horas. El histograma:
 

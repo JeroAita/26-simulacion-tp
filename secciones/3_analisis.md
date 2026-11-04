@@ -61,6 +61,8 @@ Como detalle, podemos ver que alrededor del $45\%$ de los periodos entre llegada
 
 ![](../src/llegadas_histograma.png)
 
+> Ver Apéndice: Distribuciones empíricas
+
 ### Tasas de servicio
 
 Similar al análisis de las llegadas al sistema, analizaremos ahora el tiempo que un paciente permanece en una de las camas seleccionadas; es decir, el tiempo de servicio.

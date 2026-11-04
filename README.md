@@ -44,7 +44,8 @@ Un índice + barra de progreso del trabajo.
 
 Entregables:
 - [Simulación: TP Final](entregables/simulacion_tp_final.md)
-- [Apéndice: Análisis de entradas - Chi Cuadrado](analisis_entradas_chi_cuadrado.md)
+- [Apéndice: Análisis de entradas - Chi Cuadrado](entregables/analisis_entradas_chi_cuadrado.md)
+- [Apéndice: Distribuciones empíricas](entregables/distribuciones_empiricas.md)
 
 ~~~
 secciones/   # Redacción de cada sección. Por separado para facilitar edición y avances.

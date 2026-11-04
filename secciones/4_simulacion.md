@@ -91,6 +91,8 @@ El modelo se implementa como una red de bloques de SimEvents con los siguientes 
 - **Realimentación:** la salida del quirófano se reúne con la fuente exógena antes de la cola, con prioridad alta.
 - **Medición:** estadísticas de cada bloque (utilización, longitud media de cola, espera media) y registro de tiempos por entidad.
 
+> TODO: capturas del modelo en SimEvents
+
 ### Verificación y validación
 
 Se distinguen dos preguntas: si el modelo está bien implementado (verificación) y si representa al sistema real (validación).
@@ -109,6 +111,8 @@ Se distinguen dos preguntas: si el modelo está bien implementado (verificación
 - *Ocupación observada:* en la ventana de $1.763$ h ($\approx 73$ días) de los datos, las 5 camas estuvieron ocupadas en promedio $3,59$ camas, es decir $\rho_{obs} \approx 0,72$. 
 - *Contra el modelo analítico:* $\rho$ y $\bar C$ deberían coincidir. $L_q$ y $W_q$ **no necesariamente**: la aproximación M/M/c supone $C^2 = 1$ para los servicios y los datos muestran $C^2 \approx 2,7$, por lo que se espera una diferencia que se analizará, no que invalide el modelo.
 - *Espera observada:* no hay un $W_q$ real comparable. La espera entre "Orden de internación" e "Ingreso" corresponde a la espera por *cualquier* cama del hospital, no por las 5 camas seleccionadas.
+
+> TODO: Ejecutar unas corridas piloto y chequear estos puntos.
 
 **Limitaciones del modelo**
 

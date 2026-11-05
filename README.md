@@ -54,4 +54,27 @@ entregables/ # Archivo acumulando las secciones + apéndices.
 datos/       # CSV / base de datos SQLite con los datos de muestra.
 scripts/     # SQL / Python para trabajar con los datos.
 
+simulacion/  # Simulador SimPy del modelo (ver simulacion/README.md).
+analisis/    # Scripts de transitorio, tamaño de muestra e intervalos.
+configs/     # Configuración del modelo original.
+tests/       # Pruebas del simulador.
+
 src/         # Multimedia; imágenes.
+~~~
+
+## Simulador en Python
+
+El modelo de la sección 4 está implementado con SimPy. Instrucciones completas
+en [`simulacion/README.md`](simulacion/README.md).
+
+~~~bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -e .
+
+python scripts/extraer_muestras.py
+python -m simulacion --config configs/original.toml \
+    --replicas 20 --T 30000 --warmup 1000 --semilla 2026 \
+    --salida salida/ejemplo --procesos 4
+pytest
+~~~

@@ -4,7 +4,7 @@
 
 Las medidas analíticas de la sección anterior son aproximaciones: asumen servicios y llegadas markovianos, servidores idénticos y llegadas independientes entre sí. El sistema real incumple varios de esos supuestos: las llegadas no son exponenciales, los retornos del quirófano dependen de salidas previas, los tiempos de servicio son muy asimétricos.
 
-La simulación de eventos discretos permite **conservar la estructura del sistema** utilizando una cola con prioridades, un lazo de realimentación por el quirófano, y **usar las distribuciones observadas** sin forzarlas a una forma conocida. El modelo conceptual es el mismo de la sección *Análisis*, con un ajuste: en la simulación solo se generan las llegadas **exógenas**; los retornos desde el quirófano los produce el propio modelo.
+La simulación de eventos discretos permite **conservar la estructura del sistema** utilizando una cola con prioridades, un lazo de realimentación por el quirófano, y **usar las distribuciones observadas** sin forzarlas a una forma conocida.
 
 ```mermaid
 flowchart LR
@@ -17,19 +17,19 @@ flowchart LR
     Q --> R
 ```
 
-### Medidas de rendimiento a estimar
+### Mediciones
 
-Una **visita** es cada paso continuo de un paciente por el sub-sistema (cola + cama). El tiempo que el paciente pasa en el quirófano no se cuenta dentro de la visita, pero sí es una parte del ciclo de la realimentación. Sea $T$ la longitud de una corrida, $N(t)$ el número de pacientes en el sistema (cola + camas), $N_q(t)$ el número en cola y $B(t)$ el número de camas ocupadas.
+Una **visita** es cada paso continuo de un paciente por el sub-sistema. El tiempo que el paciente pasa en el quirófano no se cuenta dentro de la visita, pero sí es una parte del ciclo de la realimentación. Sea $T$ la longitud de una corrida, $N_q(t)$ el número de pacientes en cola, $C(t)$ el número de camas ocupadas, $D_i$ la espera de la visita $i$  y $S_i$ el servicio de la visita $i$:
 
-| Medida | Símbolo | Estimador por corrida |
+| Medida (medias) | Símbolo | Estimador por corrida |
 |:---|:---:|:---|
-| Camas ocupadas (promedio) | $\bar C$ | $\frac{1}{T}\int_0^T B(t)\,dt$ |
-| Utilización de las camas | $\rho$ | $\bar C / c$, con $c = 5$ |
-| Pacientes en el sistema | $L_s$ | $\frac{1}{T}\int_0^T N(t)\,dt$ |
-| Pacientes en cola | $L_q$ | $\frac{1}{T}\int_0^T N_q(t)\,dt$ |
-| Espera en cola | $W_q$ | $\frac{1}{n}\sum_{i=1}^{n} D_i$ (con $D_i$ la espera de la visita $i$) |
-| Tiempo en el sistema | $W_s$ | $\frac{1}{n}\sum_{i=1}^{n} (D_i + S_i)$ (con $S_i$ el servicio de la visita $i$) |
-| Utilización del quirófano | $\rho_q$ | fracción de $T$ con el quirófano ocupado |
+| Camas ocupadas | $\bar C$ | $\frac{1}{T}\int_{0}^{T}{C(t)} \ dt$ |
+| Utilización de las camas | $\rho$ | $\bar C / c \ = \bar C / 5$ |
+| Pacientes en cola | $L_q$ | $\frac{1}{T}\int_{0}^{T}{N_q(t)} \ dt$ |
+| Pacientes en el sistema | $L_s$ | $\frac{1}{T}\int_{0}^{T}{N_q(t) + C(t)} \ dt$ |
+| Espera en cola | $W_q$ | $\frac{1}{n}\sum_{i=1}^{n} D_i$ |
+| Tiempo en el sistema | $W_s$ | $\frac{1}{n}\sum_{i=1}^{n} (D_i + S_i)$ |
+| Utilización del quirófano | $\rho_q$ | $\%$ de $T$ con el quirófano ocupado |
 | Cola y espera en el quirófano | $L_q^{(q)}$, $W_q^{(q)}$ | análogos a $L_q$ y $W_q$ |
 
 Las medidas $\bar C$, $\rho$, $L_s$, $L_q$ y $\rho_q$ son **promedios temporales** (se integran en el tiempo simulado). $W_q$ y $W_s$ son **promedios por observación** (se promedian sobre pacientes). En el planeamiento táctico cada una se tratará con el método de reunión de observaciones correspondiente.
@@ -91,7 +91,7 @@ El modelo se implementa como una red de bloques de SimEvents con los siguientes 
 - **Realimentación:** la salida del quirófano se reúne con la fuente exógena antes de la cola, con prioridad alta.
 - **Medición:** estadísticas de cada bloque (utilización, longitud media de cola, espera media) y registro de tiempos por entidad.
 
-> TODO: capturas del modelo en SimEvents
+![Captura del modelo en SimEvents](../src/captura_modelo_simevents.jpeg)
 
 ### Verificación y validación
 

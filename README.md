@@ -24,7 +24,7 @@ Un índice + barra de progreso del trabajo.
 - [x] [Modelo de simulación](secciones/4_simulacion.md)
   - [x] Medidas de rendimiento a estimar
   - [x] Distribuciones elegidas
-  - [ ] Implementación en MATLAB/SimEvents
+  - [x] Implementación en MATLAB/SimEvents
   - [ ] Verificación y validación
 - [ ] [Planeamiento táctico](secciones/5_tactico.md)
   - [ ] Método para reunir observaciones

@@ -15,14 +15,14 @@ Para analizar este sistema, lo modelamos a partir de la **Teoría de colas** con
 Bajo la notación de Kendall, sería un modelo multi-servidor de cola infinita y fuente infinita: 
 
 $$
-(GD|GD|5):(GD|\infty|\infty)
+(GD|GD|5):(PR|\infty|\infty)
 $$
 
 Con este modelo sabemos que:
 
 - La tasa de llegada efectiva es igual a la tasa de llegada, porque la cola es infinita: $\lambda_{eff} = \lambda_n$
 - La tasa de llegada no depende del estado del sistema: $\lambda_n = \lambda$
-- El tiempo de servicio del sistema escala con el tiempo de servicio de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados).
+- La tasa de servicio escala con el tiempo de servicio de los servidores y de la cantidad de servidores ocupados: $\mu_n = n \cdot \mu$ (si $n \leq c$) o $\mu_n = c \cdot \mu$ (si $n > c$, todos los servidores ocupados).
 
 Ignoraremos los eventos de tipo "Pase de cama" que ocurran entre las camas del sub-sistema seleccionado, al no representar un cambio en la cantidad de clientes en el sistema. El tiempo de servicio a un paciente se calcularía entonces como la diferencia entre la fecha-hora de egreso, paso a quirófano o paso a cama externa, y la fecha-hora de ingreso o pase a cama interna. Esto se desarrollará con mayor detalle más adelante, cuando analicemos los tiempos de servicio.
 
@@ -113,12 +113,14 @@ $$
 \mu_q = 0,66  \frac{\text{ pacientes }}{\text{ hora }}
 $$
 
+A simple vista vemos que el quirófano posee una utilización baja: $\rho = \lambda / \mu \approx 0,06$.
+
 ### Medidas de rendimiento analíticas
 
 El análisis de medidas de rendimiento sólo es válido si el sistema tiende a estado estable. Calculamos el **factor de utilización**:
 
 $$
-\rho = \frac{\lambda}{c \cdot \mu} = \frac{0,2}{5 \cdot 0,06} \approx 0,73
+\rho = \frac{\lambda}{c \cdot \mu} = \approx 0,73
 $$
 
 Como $\rho < 1$, el sistema tiende a estado estable. Para el quirófano, $\rho_q = \frac{0,04}{0,66} \approx 0,06$.
@@ -135,7 +137,7 @@ Con $a = \lambda / \mu$,
 $$
 P_0 = \left[ 
 \sum_{n=0}^{c-1}{ \frac{a^n}{n!} } + \frac{ a^c }{ c! (1 - \rho) }
-\right] \approx 0,02
+\right]^{-1} \approx 0,02
 $$
 
 Luego:

@@ -44,7 +44,7 @@ $$
 X = F_n^{-1}(U)
 $$
 
-Se eligió el método de la inversa porque es válido para cualquier forma y usa un solo número aleatorio por observación, lo que permitirá aplicar variables antitéticas ($U$ y $1-U$) y números aleatorios comunes en las secciones siguientes. La inversa empírica no genera valores fuera del rango observado.
+Se eligió el método de la inversa porque es válido para cualquier forma y usa un solo número aleatorio por observación, lo que permitirá aplicar variables antitéticas ($U$ y $1-U$) y números aleatorios comunes en las secciones siguientes. La inversa empírica no genera valores fuera del rango observado, lo que es una limitación.
 
 > Script SQL 6: ruteo, llegadas exógenas y ocupación observada
 
@@ -75,7 +75,7 @@ Que es consistente con la tasa observada sobre las 355 llegadas ($\approx 0,20$)
 
 Se asume que el destino es independiente de la duración del servicio. Es una simplificación, porque en los datos los servicios que terminan en egreso duran en promedio $32,3$ h, contra $7,1$ h (quirófano) y $8,8$ h (cama externa). Preserva la media global del servicio (y por lo tanto $\rho$), pero no la relación entre destino y duración.
 
-**Quirófano:** Un servidor único. Servicio con distribución empírica ($n = 65$): media $1,51$ h, desvío $2,08$ h, mediana $0,06$ h (alrededor de $3,5$ min), máximo $6,9$ h. Los pacientes que pasan al quirófano **siempre** retornan a una cama del sub-sistema (en la muestra, $65$ de $68$).
+**Quirófano:** Un servidor único. Servicio con distribución empírica ($n = 65$): media $1,51$ h, desvío $2,08$ h, mediana $0,06$ h (alrededor de $3,5$ min), máximo $6,9$ h. Asumimos que los pacientes que pasan al quirófano siempre retornan a una cama del sub-sistema (en la muestra, $65$ de $68$).
 
 **Disciplina de cola:** Cola infinita y fuente infinita. Los pacientes que retornan del quirófano tienen prioridad sobre las llegadas nuevas, sin interrupción de servicios en curso. Dentro de cada clase, orden de llegada (FIFO). Un paciente que encuentra camas libres toma una elegida al azar.
 
@@ -92,27 +92,6 @@ El modelo se implementa como una red de bloques de SimEvents con los siguientes 
 - **Medición:** estadísticas de cada bloque (utilización, longitud media de cola, espera media) y registro de tiempos por entidad.
 
 ![Captura del modelo en SimEvents](../src/captura_modelo_simevents.jpeg)
-
-### Verificación y validación
-
-Se distinguen dos preguntas: si el modelo está bien implementado (verificación) y si representa al sistema real (validación).
-
-**Verificación**
-
-- *Entradas:* generar una muestra grande ($\geq 10^5$) con cada generador y comparar media, desvío y cuantiles contra los datos originales.
-- *Ley de Little:* en cada corrida, $L_s \approx \lambda_{eff} W_s$ y $L_q \approx \lambda_{eff} W_q$.
-- *Conservación de entidades:* generadas = terminadas + en el sistema al final.
-- *Proporciones de ruteo:* la fracción de visitas que terminan en egreso, cama externa y quirófano debe reproducir $0,409$ / $0,397$ / $0,194$.
-- *Traza manual:* seguir a mano los primeros eventos con valores fijos de las entradas.
-
-**Validación**
-
-- *Balance de flujo:* la simulación debe reproducir $\lambda_{eff} \approx 0,205$ y, por Little, $\bar C \approx 3,7$ camas ocupadas, es decir $\rho \approx 0,74$. Este valor no depende de la forma de las distribuciones, así que debe coincidir con el $\rho$ analítico.
-- *Ocupación observada:* en la ventana de $1.763$ h ($\approx 73$ días) de los datos, las 5 camas estuvieron ocupadas en promedio $3,59$ camas, es decir $\rho_{obs} \approx 0,72$. 
-- *Contra el modelo analítico:* $\rho$ y $\bar C$ deberían coincidir. $L_q$ y $W_q$ **no necesariamente**: la aproximación M/M/c supone $C^2 = 1$ para los servicios y los datos muestran $C^2 \approx 2,7$, por lo que se espera una diferencia que se analizará, no que invalide el modelo.
-- *Espera observada:* no hay un $W_q$ real comparable. La espera entre "Orden de internación" e "Ingreso" corresponde a la espera por *cualquier* cama del hospital, no por las 5 camas seleccionadas.
-
-> TODO: Ejecutar unas corridas piloto y chequear estos puntos.
 
 **Limitaciones del modelo**
 

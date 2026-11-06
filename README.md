@@ -25,11 +25,10 @@ Un índice + barra de progreso del trabajo.
   - [x] Medidas de rendimiento a estimar
   - [x] Distribuciones elegidas
   - [x] Implementación en MATLAB/SimEvents
-  - [ ] Verificación y validación
-- [ ] [Planeamiento táctico](secciones/5_tactico.md)
-  - [ ] Método para reunir observaciones
-  - [ ] Eliminación de transitorio
-  - [ ] Número de corridas y longitud
+- [x] [Planeamiento táctico](secciones/5_tactico.md)
+  - [x] Método para reunir observaciones
+  - [x] Eliminación de transitorio
+  - [x] Número de corridas y longitud
 - [ ] [Resultados y propuesta de optimización](secciones/6_resultados.md)
   - [ ] Resultados e IC
   - [ ] Comparación con lo analítico y test de hipótesis

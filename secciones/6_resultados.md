@@ -1,6 +1,6 @@
 ## Resultados y propuesta de optimización
 
-## Resultados e IC
+### Resultados e IC
 
 Habiendo determinado el número y longitud de corridas, se ejecutan y se extraen los datos.
 
@@ -116,3 +116,16 @@ $$
 Como el estadístico es mayor que el valor crítico, **se rechaza $H_0$**.
 
 En conclusión, existe evidencia suficiente para determinar que **añadir dos servidores al sistema reduce el tiempo esperado de los clientes en el sistema**.
+
+---
+
+## Conclusión
+
+El sub-sistema actual funciona cerca de su capacidad, y la variabilidad real de llegadas y estadías hace que los tiempos en el sistema sean más altos e irregulares de lo que predice la teoría clásica de colas. Agregar dos camas reduce de forma estadísticamente significativa y consistente el tiempo esperado en el sistema, al punto de eliminar prácticamente la espera, a costa de una menor utilización. La decisión final sobre la cantidad de camas debería sopesar este beneficio contra el costo de la capacidad adicional.
+
+---
+
+## Bibliografía
+
+- Simulación, Sheldon M. Ross
+- Investigación de Operaciones, Hamdy A. Taha

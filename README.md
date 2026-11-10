@@ -34,8 +34,9 @@ Un índice + barra de progreso del trabajo.
   - [ ] Reducción de varianza
   - [x] Modelo alternativo, resultados
   - [x] Test de hipótesis
-- [ ] [Conclusiones](secciones/7_conclusiones.md)
-- [ ] Apéndices
+- [x] Apéndices
+  - [x] [Análisis de llegadas: Chi Cuadrado](analisis_llegadas_chi_cuadrado.md)
+  - [x] [Distribuciones Empíricas](apendices/distribuciones_empiricas.md)
 
 
 ## Archivos
@@ -47,7 +48,7 @@ Entregables:
 
 ~~~
 secciones/   # Redacción de cada sección. Por separado para facilitar edición y avances.
-entregables/ # Archivo acumulando las secciones + apéndices.
+apendices/   # Redacciones adicionales extraídas para compactar las secciones.
 
 datos/       # CSV / base de datos SQLite con los datos de muestra.
 scripts/     # SQL / Python para trabajar con los datos.

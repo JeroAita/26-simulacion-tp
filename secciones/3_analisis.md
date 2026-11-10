@@ -125,13 +125,7 @@ $$
 
 Como $\rho < 1$, el sistema tiende a estado estable. Para el quirófano, $\rho_q = \frac{0,04}{0,66} \approx 0,06$.
 
-El **número esperado de servidores ocupados**, por su fórmula de Little:
-
-$$
-\bar C = \frac{\lambda_{eff}}{\mu} = \frac{\lambda}{\mu} \approx 3,66 \ \text{camas}
-$$
-
-Si bien trabajamos sobre un modelo G/G/c, las siguientes medidas de rendimiento las calculamos utilizando a partir de la fórmula de probabilidad de $n$ clientes en el sistema del modelo M/M/c como marco de referencia. Las mismas son aproximaciones de referencia; la simulación por software proveerá medidas más fieles al modelo.
+Si bien trabajamos sobre un modelo G/G/c, las siguientes medidas de rendimiento las calculamos utilizando a partir de la fórmula de probabilidad de $n$ clientes en el sistema del modelo M/M/c como marco de referencia. Las mismas **son aproximaciones de referencia; la simulación por software proveerá medidas más fieles al modelo**.
 
 Con $a = \lambda / \mu$,
 $$
@@ -146,26 +140,11 @@ $$
 P(n \geq c) = \frac{ a^c }{ c! (1 - \rho) } \cdot P_0 \approx 0,43
 $$
 
-El **número esperado de clientes en la cola**:
+Medida | Fórmula / de Little | Valor
+--- | --- | ---
+$\bar C$ | $\lambda / \mu$ | $3,66 \ \text{camas}$
+$L_q$ | $P_0 \cdot \frac{a^c \rho}{c! (1-\rho)^2}$ | $1,17 \ \text{pacientes}$
+$W_q$ | $\frac{L_q}{\lambda}$ | $5,8 \ \text{h}$
+$W_s$ | $W_q + \frac{1}{\mu}$ | $23,9 \ \text{h}$
+$L_s$ | $L_q + \frac{\lambda}{\mu}$ | $4,8 \ \text{pacientes}$
 
-$$
-L_q = 0,43 \cdot \frac{\rho}{1-\rho} \approx 1,17 \ \text{pacientes}
-$$
-
-El **tiempo esperado de espera en la cola**:
-
-$$
-W_q = \frac{L_q}{\lambda} \approx 5,8 \ \text{h}
-$$
-
-El **tiempo esperado de espera en el sistema**:
-
-$$
-W_s = W_q + \frac{1}{\mu} \approx 23,9 \ \text{h}
-$$
-
-El **número esperado de clientes en el sistema**:
-
-$$
-L_s = L_q + \frac{\lambda}{\mu} \approx 4,8 \ \text{pacientes}
-$$

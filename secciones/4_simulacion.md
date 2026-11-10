@@ -19,29 +19,9 @@ flowchart LR
 
 ### Mediciones
 
-%% Comentado: recortamos - sólo mediremos $W_s$.
-
-Una **visita** es cada paso continuo de un paciente por el sub-sistema. El tiempo que el paciente pasa en el quirófano no se cuenta dentro de la visita, pero sí es una parte del ciclo de la realimentación. Sea $T$ la longitud de una corrida, $N_q(t)$ el número de pacientes en cola, $C(t)$ el número de camas ocupadas, $D_i$ la espera de la visita $i$  y $S_i$ el servicio de la visita $i$:
-
-| Medida (medias) | Símbolo | Estimador por corrida |
-|:---|:---:|:---|
-| Camas ocupadas | $\bar C$ | $\frac{1}{T}\int_{0}^{T}{C(t)} \ dt$ |
-| Utilización de las camas | $\rho$ | $\bar C / c \ = \bar C / 5$ |
-| Pacientes en cola | $L_q$ | $\frac{1}{T}\int_{0}^{T}{N_q(t)} \ dt$ |
-| Pacientes en el sistema | $L_s$ | $\frac{1}{T}\int_{0}^{T}{N_q(t) + C(t)} \ dt$ |
-| Espera en cola | $W_q$ | $\frac{1}{n}\sum_{i=1}^{n} D_i$ |
-| Tiempo en el sistema | $W_s$ | $\frac{1}{n}\sum_{i=1}^{n} (D_i + S_i)$ |
-| Utilización del quirófano | $\rho_q$ | $\%$ de $T$ con el quirófano ocupado |
-| Cola y espera en el quirófano | $L_q^{(q)}$, $W_q^{(q)}$ | análogos a $L_q$ y $W_q$ |
-
-Las medidas $\bar C$, $\rho$, $L_s$, $L_q$ y $\rho_q$ son **promedios temporales** (se integran en el tiempo simulado). $W_q$ y $W_s$ son **promedios por observación** (se promedian sobre pacientes). En el planeamiento táctico cada una se tratará con el método de reunión de observaciones correspondiente.
-
-Como control interno, cada corrida debe cumplir la fórmula de Little: $L_s = \lambda_{eff} W_s$ y $L_q = \lambda_{eff} W_q$.
-%%
-
 Una **visita** es el paso de un paciente por el sistema. El tiempo que el cliente pasa en el sistema se calcula como la diferencia entre el momento en el que salió (egreso / pase de cama a una externa) y el momento en el que llegó (orden de internación). Así, podemos tomar de cada simulación $n$ visitas y el tiempo que cada una pasó en el sistema. Promediando, obtenemos una medida estimadora de $W_s$.
 
-### Distribuciones elegidas
+### Distribuciones y ruteo
 
 Todas las entradas aleatorias se generan por **transformada inversa de la distribución empírica**. Dado $U \sim \text{U}(0,1)$, se ordena la muestra $x_{(1)} \le \dots \le x_{(n)}$, se asigna a cada $x_{(i)}$ la probabilidad acumulada $p_i = (i - 0,5)/n$ y se interpola linealmente entre puntos consecutivos:
 
@@ -63,7 +43,7 @@ Se eligió el método de la inversa porque es válido para cualquier forma y usa
 La tasa exógena es $\lambda_{ext} \approx 0,166 \frac{\text{pacientes}}{\text{hora}}$. Con el lazo del quirófano, la tasa efectiva de llegadas al sub-sistema resulta del balance de flujo, siendo $p_q$ la probabilidad de pasar al quirófano al terminar un servicio y asumiendo que todos retornan:
 
 $$
-\lambda_{eff} = \frac{\lambda_{ext}}{1 - p_q} = \frac{0,166}{1 - 0,194} \approx 0,205 \frac{\text{pacientes}}{\text{hora}}
+\lambda_{eff} = \frac{\lambda_{ext}}{1 - p_q} = \frac{0,166}{1 - 0,194} \approx 0,205 \ \frac{\text{pacientes}}{\text{hora}}
 $$
 
 Que es consistente con la tasa observada sobre las 355 llegadas ($\approx 0,20$).

@@ -4,28 +4,43 @@ En esta sección se fijan las decisiones experimentales: tipo de simulación, m�
 
 ### Tipo de simulación
 
-El hospital no tiene un evento de terminación: los pacientes llegan y egresan indefinidamente, y lo que interesa es el comportamiento de largo plazo del sub-sistema. La simulación es **no terminante** y se estudia en **régimen permanente**. Como $\rho \approx 0,73 < 1$, el sistema tiende a estado estable.
+El hospital no tiene un evento de terminación: los pacientes llegan y egresan indefinidamente, y lo que interesa es el comportamiento de largo plazo del sub-sistema. La simulación es **no terminante** y se estudia en **régimen permanente**.
 
-Las medidas se calculan de dos maneras:
+$T_c$ es la ventana de recolección (la corrida sin el transitorio) y $n$ la cantidad de visitas completas ocurridas dentro de ella; las visitas en curso al final de la ventana se excluyen. Cada corrida producirá una observación de la medida a analizar, ${W_s}_k$, que es una variable basada en promedio por observación:
 
-| Tipo | Medidas | Estimador por corrida |
-|:---|:---|:---|
-| Promedio temporal | $\bar C$, $\rho$, $L_s$, $L_q$, $\rho_q$, $L_q^{(q)}$ | $\frac{1}{T_c}\int_0^{T_c} X(t)\,dt$ |
-| Promedio por observación | $W_q$, $W_s$, $W_q^{(q)}$ | $\frac{1}{n}\sum_{i=1}^{n} X_i$ |
+$$
+{W_s}_k = \frac{ \sum_{i=1}^{n}{{W_s}_i} }{ n }
+$$
 
-$T_c$ es la ventana de recolección (la corrida sin el transitorio) y $n$ es la cantidad de visitas completas que caen dentro de ella; las visitas en curso al inicio o al final de la ventana se excluyen. Cada corrida produce **una sola observación por medida**.
+Utilizando el Teorema del Límite Central, sabemos que al ser una distribución de promedios, están normalmente distribuídos. Si obtenemos $M$ observaciones y las promediamos, obtenemos un estimador del valor esperado de $W_s$:
+
+$$
+\bar W_s = \frac{ \sum_{k=1}^{M}{{W_s}_k} }{ M }
+$$
 
 ### Método para reunir observaciones
 
-**Método de réplicas.** Se simulan $M$ corridas independientes, cada una con su propio flujo de números aleatorios, el sistema inicialmente vacío y la misma longitud $T$. De cada corrida se calcula un valor por medida sobre su ventana de recolección, y esos $M$ valores se promedian.
+**Método de réplicas:** Se simulan $M$ corridas independientes, cada una con su propio flujo de números aleatorios, el sistema inicialmente vacío y la misma longitud $T$. De cada corrida se calcula un valor por medida sobre su ventana de recolección, y esos $M$ valores se promedian.
 
-Se eligió este método porque las $M$ observaciones son independientes por construcción, de modo que se puede construir el intervalo de confianza con la distribución $t$ sin suponer nada sobre la dependencia dentro de cada corrida. Además, permite formar los pares necesarios para las variables antitéticas y para los números aleatorios comunes. Se descartó el método de subintervalos (lotes) porque las corridas son instantáneas, de modo que las réplicas no tienen costo adicional y evitan tener que estimar la autocorrelación entre lotes.
+Se eligió este método porque las $M$ observaciones son independientes por construcción, de modo que se puede construir el intervalo de confianza con la distribución $t$ sin suponer nada sobre la dependencia dentro de cada corrida. Además, permite formar los pares necesarios para las variables antitéticas y para los números aleatorios comunes.
+
+### Número de corridas y longitud
+
+**Cantidad de visitas $n$:** Para las medidas por observación, la desigualdad de Chebyshev da la cantidad mínima de valores por observación sin suponer normalidad:
+
+$$
+n = \frac{1}{\alpha\,b^2}, \qquad b = d/\sigma
+$$
+
+Con $\alpha = 0,10$ y $b = 1/4$ se obtiene $n = 160$.
+
+A partir de la tasa de llegada, tenemos que $\lambda \cdot T_c \approx n \Rightarrow T_c \approx \frac{n}{\lambda} = \frac{160}{0,205} = 780,5 \ h$ es el tiempo mínimo para la llegada de la cantidad de visitas necesarias. Para calcular la longitud total de las corridas, debemos considerar el tiempo que el sistema pasa en estado transitorio.
 
 ### Eliminación del transitorio
 
 **Condiciones iniciales:** sistema vacío (sin cola, con las 5 camas y el quirófano libres). Es la inicialización más simple y es igual en todas las réplicas. Como un hospital real nunca arranca vacío, el período inicial no es representativo y se descarta.
 
-**Método:** promedio móvil de ventana fija (Emshoff y Sisson, descrito en Shannon). Se corren $K = 20$ réplicas piloto de $T = 30.000$ h con la semilla base $12345$. Para cada instante se promedia la medida entre réplicas, $\bar Y_i = \frac{1}{K}\sum_k Y_{k,i}$, y se grafica el promedio móvil de ventana $w$:
+**Método:** promedio móvil de ventana fija (Emshoff y Sisson, descrito en Shannon). Se corren $K = 30$ réplicas piloto de $T = 30.000$ h con la semilla base $12345$. Para cada instante se promedia la medida entre réplicas, $\bar Y_i = \frac{1}{K}\sum_k Y_{k,i}$, y se grafica el promedio móvil de ventana $w$:
 
 $$
 \bar Y_j(w) = \frac{1}{w}\sum_{i=j-w+1}^{j} \bar Y_i

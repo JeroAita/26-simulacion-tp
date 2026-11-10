@@ -1,9 +1,6 @@
 ---
 title: 'Simulación: TP Final'
 ---
-
-# Simulación: TP Final
-
 Grupo:
 
 - Aita Jerónimo - jeroaitagm@gmail.com

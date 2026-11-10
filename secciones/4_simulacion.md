@@ -19,6 +19,8 @@ flowchart LR
 
 ### Mediciones
 
+%% Comentado: recortamos - sólo mediremos $W_s$.
+
 Una **visita** es cada paso continuo de un paciente por el sub-sistema. El tiempo que el paciente pasa en el quirófano no se cuenta dentro de la visita, pero sí es una parte del ciclo de la realimentación. Sea $T$ la longitud de una corrida, $N_q(t)$ el número de pacientes en cola, $C(t)$ el número de camas ocupadas, $D_i$ la espera de la visita $i$  y $S_i$ el servicio de la visita $i$:
 
 | Medida (medias) | Símbolo | Estimador por corrida |
@@ -35,6 +37,9 @@ Una **visita** es cada paso continuo de un paciente por el sub-sistema. El tiemp
 Las medidas $\bar C$, $\rho$, $L_s$, $L_q$ y $\rho_q$ son **promedios temporales** (se integran en el tiempo simulado). $W_q$ y $W_s$ son **promedios por observación** (se promedian sobre pacientes). En el planeamiento táctico cada una se tratará con el método de reunión de observaciones correspondiente.
 
 Como control interno, cada corrida debe cumplir la fórmula de Little: $L_s = \lambda_{eff} W_s$ y $L_q = \lambda_{eff} W_q$.
+%%
+
+Una **visita** es el paso de un paciente por el sistema. El tiempo que el cliente pasa en el sistema se calcula como la diferencia entre el momento en el que salió (egreso / pase de cama a una externa) y el momento en el que llegó (orden de internación). Así, podemos tomar de cada simulación $n$ visitas y el tiempo que cada una pasó en el sistema. Promediando, obtenemos una medida estimadora de $W_s$.
 
 ### Distribuciones elegidas
 
@@ -91,12 +96,12 @@ El modelo se implementa como una red de bloques de SimEvents con los siguientes 
 - **Realimentación:** la salida del quirófano se reúne con la fuente exógena antes de la cola, con prioridad alta.
 - **Medición:** estadísticas de cada bloque (utilización, longitud media de cola, espera media) y registro de tiempos por entidad.
 
-![Captura del modelo en SimEvents](../src/captura_modelo_simevents.jpeg)
+![Captura del modelo en SimEvents](../src/captura_modelo_simevents_2.jpeg)
 
 **Limitaciones del modelo**
 
 - Sub-sistema de solo 5 camas; los recorridos por camas externas se consideran exógenos.
-- Servidores homogéneos (en los datos, la media por cama varía entre $14,8$ y $22,2$ h).
+- Servidores homogéneos.
 - Destino independiente de la duración del servicio.
 - El quirófano real atiende también a pacientes de otras camas: en los datos, la cama 241 estuvo ocupada alrededor del $30\%$ del tiempo, mientras que el modelo, que solo contempla a pacientes del sub-sistema, da $\rho_q \approx 0,06$. En consecuencia, la espera simulada en el quirófano estará subestimada.
 - No se modelan variaciones por hora del día o día de la semana.

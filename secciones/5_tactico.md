@@ -40,18 +40,42 @@ A partir de la tasa de llegada, tenemos que $\lambda \cdot T_c \approx n \Righta
 
 **Condiciones iniciales:** sistema vacío (sin cola, con las 5 camas y el quirófano libres). Es la inicialización más simple y es igual en todas las réplicas. Como un hospital real nunca arranca vacío, el período inicial no es representativo y se descarta.
 
-**Método:** promedio móvil de ventana fija (Emshoff y Sisson, descrito en Shannon). Se corren $K = 30$ réplicas piloto de $T = 30.000$ h con la semilla base $12345$. Para cada instante se promedia la medida entre réplicas, $\bar Y_i = \frac{1}{K}\sum_k Y_{k,i}$, y se grafica el promedio móvil de ventana $w$:
+**Método:** promedio móvil de ventana fija (Emshoff y Sisson, descrito en Shannon). Se corren $K = 30$ réplicas piloto de $T = 5.000$ h con la semilla base $12345$ y el sistema inicialmente vacío.
+
+Las visitas se agrupan en intervalos de $\Delta = 50$ h según su **instante de llegada**, y no según su instante de salida, para no favorecer a las visitas cortas al comienzo. Para cada réplica $k$ e intervalo $i$ se calcula
+
+$$
+Y_{k,i} = \frac{1}{n_{k,i}}\sum_{v \in i} W_{s,v},
+$$
+
+donde $n_{k,i}$ es la cantidad de visitas de la réplica $k$ que llegan en el intervalo $i$ y terminan antes de $T$. Luego se promedia entre réplicas, $\bar Y_i = \frac{1}{K}\sum_k Y_{k,i}$, y se aplica el promedio móvil de ventana $w$:
 
 $$
 \bar Y_j(w) = \frac{1}{w}\sum_{i=j-w+1}^{j} \bar Y_i
 $$
 
-El punto en que la curva deja de tener tendencia y oscila alrededor de un nivel define el transitorio. Se aplicó a las medidas $C(t)$ y $N_q(t)$; esta última es la que más tarda en estabilizarse. Se eligió este método porque aprovecha las réplicas piloto que de todos modos hacen falta para calcular $M$, y porque el promedio entre réplicas junto con el promedio móvil suavizan el ruido de una sola corrida, que en este sistema es grande.
+Se probaron ventanas de $w = 5$, $10$ y $20$ intervalos (250, 500 y 1.000 h). Con $\lambda_{eff} \approx 0{,}206$ visitas/h, cada intervalo de 50 h contiene unas 10 visitas por réplica y unas 300 al promediar las 30 réplicas, de modo que la media por intervalo no está dominada por el ruido. El nivel final se estima en la región central de la corrida, descartando la cola censurada (los últimos 1.000 h), para que las visitas incompletas no sesguen la banda. El punto en que la curva deja de tener tendencia y oscila alrededor de ese nivel define el transitorio.
 
-![](../src/transitorio_C.png)
-![](../src/transitorio_Nq.png)
+Se eligió este método porque el promedio entre réplicas junto con el promedio móvil suavizan el ruido de una sola corrida, que en este sistema es grande por la cola pesada de los servicios.
 
-**Resultado:** $d_T = 1.000$ h, el mismo valor para todas las réplicas (Shannon recomienda no elegir un descarte distinto por corrida, para no seleccionar corridas favorables). Equivale al $3,3\%$ de la corrida y deja una ventana $T_c = 29.000$ h.
+![](../src/transitorio_Ws.png)
+
+**Resultado:** las ventanas de 250 y 500 h entran en la banda de $\pm 5\%$ alrededor de su nivel final estimado a las $350$ h y $550$ h, respectivamente. La ventana de 1.000 h, que es la más conservadora y la que mejor filtra las fluctuaciones de largo plazo, entra a las $1.050$ h. Se adopta
+
+$$
+d_T = 1.000\ \text{h},
+$$
+
+redondeando ese valor, el mismo para todas las réplicas (Shannon recomienda no elegir un descarte distinto por corrida, para no seleccionar corridas favorables). El nivel final estimado es $\approx 28{,}5$ h, del mismo orden que la media de $W_s$ de las 30 réplicas ($28{,}98$ h). El transitorio representa el $20\%$ del piloto de $5.000$ h y deja $4.000$ h de ventana. La longitud total de las corridas será $T = T_c + d_T$, con $T_c$ fijado en la sección siguiente a partir de la precisión requerida para $W_s$.
+
+<!--
+Indicaciones para las secciones siguientes (pendientes de re-redacción):
+- Recalcular M sólo para W_s. El piloto de 30×5000 h es sólo para d_T; no usarlo para M si T final es distinto.
+- Fijar T_c a partir de n y λ_eff, y luego T = T_c + d_T con d_T = 1000 h.
+- Revisar la inconsistencia n=160 vs d=10%: con σ_Ws≈37,7 h, n≈1.700 y T_c≈8.300 h.
+- Eliminar las demás medidas y las cotas absolutas de Lq_q/Wq_q.
+- Comando sugerido: python -m analisis.tamano_muestra --entrada <piloto-final> --precision-medida Ws=0.10 --alpha 0.10
+-->
 
 ### Precisión y confianza
 

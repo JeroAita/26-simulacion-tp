@@ -126,7 +126,11 @@ Todos los scripts leen `salida/<experimento>/` y escriben CSV/Markdown; las
 figuras van a `src/` como PNG.
 
 ~~~bash
-# Transitorio (piloto con d_T = 0 y trayectoria habilitada)
+# Transitorio de Ws (piloto de 30 réplicas × 5000 h, sin trayectoria)
+python -m analisis.transitorio_ws --entrada salida/transitorio-ws \
+    --delta 50 --ventanas 5,10,20
+
+# Transitorio de medidas temporales (piloto con trayectoria habilitada)
 python -m analisis.transitorio --entrada salida/piloto \
     --delta 10 --ventanas 5,20,50
 
@@ -143,6 +147,11 @@ python -m analisis.intervalos --entrada salida/final \
 móvil a una banda de ±5 % del nivel final. Si la serie es muy ruidosa, informa
 también el primer instante desde el cual no vuelve a salir de la banda. La
 decisión final de `d_T` queda en manos del usuario.
+
+`analisis/transitorio_ws.py` hace lo mismo para `W_s` a partir de
+`corrida_*_visitas.csv`, agrupando las visitas por instante de llegada y
+descartando la cola censurada para estimar el nivel final. No necesita los CSV
+de trayectoria, así que el piloto puede correrse con `--sin-trayectoria`.
 
 ## Nota sobre los valores esperados
 

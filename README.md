@@ -30,11 +30,10 @@ Un índice + barra de progreso del trabajo.
   - [x] Eliminación de transitorio
   - [x] Número de corridas y longitud
 - [ ] [Resultados y propuesta de optimización](secciones/6_resultados.md)
-  - [ ] Resultados e IC
-  - [ ] Comparación con lo analítico y test de hipótesis
+  - [x] Resultados e IC
   - [ ] Reducción de varianza
-  - [ ] Modelo alternativo
-  - [ ] Comparación
+  - [x] Modelo alternativo, resultados
+  - [x] Test de hipótesis
 - [ ] [Conclusiones](secciones/7_conclusiones.md)
 - [ ] Apéndices
 

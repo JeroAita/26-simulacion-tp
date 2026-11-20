@@ -3,6 +3,14 @@
 
 Repositorio para organizar la redacción del trabajo práctico final de la asignatura Simulación, año 2026.
 
+## Informe completo y modelo SimEvents
+
+[Simulación - TP Final.pdf](Simulación-TP-Final.pdf)
+
+[untitled2.mdl](untitled2.mdl)
+
+---
+
 ## Secciones
 
 Un índice + barra de progreso del trabajo.
@@ -29,9 +37,9 @@ Un índice + barra de progreso del trabajo.
   - [x] Método para reunir observaciones
   - [x] Eliminación de transitorio
   - [x] Número de corridas y longitud
-- [ ] [Resultados y propuesta de optimización](secciones/6_resultados.md)
+- [x] [Resultados y propuesta de optimización](secciones/6_resultados.md)
   - [x] Resultados e IC
-  - [ ] Reducción de varianza
+  - [x] Reducción de varianza
   - [x] Modelo alternativo, resultados
   - [x] Test de hipótesis
 - [x] Apéndices
@@ -42,9 +50,8 @@ Un índice + barra de progreso del trabajo.
 ## Archivos
 
 Entregables:
-- [Simulación: TP Final](entregables/simulacion_tp_final.md)
-- [Apéndice: Análisis de entradas - Chi Cuadrado](entregables/analisis_entradas_chi_cuadrado.md)
-- [Apéndice: Distribuciones empíricas](entregables/distribuciones_empiricas.md)
+- [Apéndice: Análisis de entradas - Chi Cuadrado](apendices/analisis_entradas_chi_cuadrado.md)
+- [Apéndice: Distribuciones empíricas](apendices/distribuciones_empiricas.md)
 
 ~~~
 secciones/   # Redacción de cada sección. Por separado para facilitar edición y avances.

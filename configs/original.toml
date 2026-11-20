@@ -1,0 +1,20 @@
+# Configuración del modelo original de la sección 4 del informe.
+# Tiempos en horas. Las rutas son relativas a la raíz del repositorio.
+
+[modelo]
+nombre = "original"
+c_camas = 5
+c_quirofano = 1
+prioridad_retornos = 0
+prioridad_exogenas = 1
+
+[muestras]
+interarribos_exogenos = "datos/muestras/interarribos_exogenos.csv"
+servicio_camas = "datos/muestras/servicio_camas.csv"
+servicio_quirofano = "datos/muestras/servicio_quirofano.csv"
+
+# Conteos observados sobre los 350 servicios completos en cama.
+[destinos]
+egreso = 143
+cama_externa = 139
+quirofano = 68

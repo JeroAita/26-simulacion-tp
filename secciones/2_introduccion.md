@@ -4,7 +4,7 @@
 
 Nuestro equipo propone trabajar sobre **la internación de pacientes en un hospital**. Elegimos esta temática porque uno de los integrantes del grupo posee acceso a un sistema de software actualmente utilizado en centros de salud, con el cual se gestionan los movimientos de internación.  Esto nos permite trabajar a partir de un proceso ya sistematizado, y obtener datos reales del uso del sistema.
 
-Para asegurar la protección de información personal, la extracción de datos se realizó limitándose a datos inpersonales que son almacenados en el sistema (fechas, horas, ID's numéricos de registros, cadenas de caracteres entre un conjunto pre-definido).
+Para asegurar la protección de información personal, la extracción de datos se realizó limitándose a datos impersonales que son almacenados en el sistema (fechas, horas, ID's numéricos de registros, cadenas de caracteres entre un conjunto pre-definido).
 
 Bajo el contexto de un centro de salud que presta servicio de hospitalización, las instalaciones poseen un determinado conjunto finito de **camas**.
 
@@ -29,13 +29,13 @@ Existen los siguientes eventos de tipos:
 - Orden Internacion
 - Ingreso
 - Pase de cama
-- Alta médica*
+- Alta médica
 - Egreso
-- Alta Anulada*
-- Reingreso*
-- Cancelacion Internacion*
+- Alta Anulada
+- Reingreso
+- Cancelacion Internacion
 
-En el contexto de nuestro trabajo, disolveremos los eventos de tipo "Alta médica", "Alta Anulada", "Reingreso" y "Cancelacion Internacion" al ser eventos de tipo administrativo y no representar movimientos de entidades dentro del sistema.
+En el contexto de nuestro trabajo, descartaremos los eventos de tipo "Alta médica", "Alta Anulada", "Reingreso" y "Cancelacion Internacion" al ser eventos de tipo administrativo y no representar movimientos de entidades dentro del sistema.
 
 > Script SQL 1: limpieza de datos
 

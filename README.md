@@ -3,6 +3,14 @@
 
 Repositorio para organizar la redacción del trabajo práctico final de la asignatura Simulación, año 2026.
 
+## Informe completo y modelo SimEvents
+
+[Simulación - TP Final.pdf](Simulación-TP-Final.pdf)
+
+[untitled2.mdl](untitled2.mdl)
+
+---
+
 ## Secciones
 
 Un índice + barra de progreso del trabajo.
@@ -25,33 +33,54 @@ Un índice + barra de progreso del trabajo.
   - [x] Medidas de rendimiento a estimar
   - [x] Distribuciones elegidas
   - [x] Implementación en MATLAB/SimEvents
-  - [ ] Verificación y validación
-- [ ] [Planeamiento táctico](secciones/5_tactico.md)
-  - [ ] Método para reunir observaciones
-  - [ ] Eliminación de transitorio
-  - [ ] Número de corridas y longitud
-- [ ] [Resultados y propuesta de optimización](secciones/6_resultados.md)
-  - [ ] Resultados e IC
-  - [ ] Comparación con lo analítico y test de hipótesis
-  - [ ] Reducción de varianza
-  - [ ] Modelo alternativo
-  - [ ] Comparación
-- [ ] [Conclusiones](secciones/7_conclusiones.md)
-- [ ] Apéndices
+- [x] [Planeamiento táctico](secciones/5_tactico.md)
+  - [x] Método para reunir observaciones
+  - [x] Eliminación de transitorio
+  - [x] Número de corridas y longitud
+- [x] [Resultados y propuesta de optimización](secciones/6_resultados.md)
+  - [x] Resultados e IC
+  - [x] Reducción de varianza
+  - [x] Modelo alternativo, resultados
+  - [x] Test de hipótesis
+- [x] Apéndices
+  - [x] [Análisis de llegadas: Chi Cuadrado](analisis_llegadas_chi_cuadrado.md)
+  - [x] [Distribuciones Empíricas](apendices/distribuciones_empiricas.md)
 
 
 ## Archivos
 
 Entregables:
-- [Simulación: TP Final](entregables/simulacion_tp_final.md)
-- [Apéndice: Análisis de entradas - Chi Cuadrado](entregables/analisis_entradas_chi_cuadrado.md)
-- [Apéndice: Distribuciones empíricas](entregables/distribuciones_empiricas.md)
+- [Apéndice: Análisis de entradas - Chi Cuadrado](apendices/analisis_entradas_chi_cuadrado.md)
+- [Apéndice: Distribuciones empíricas](apendices/distribuciones_empiricas.md)
 
 ~~~
 secciones/   # Redacción de cada sección. Por separado para facilitar edición y avances.
-entregables/ # Archivo acumulando las secciones + apéndices.
+apendices/   # Redacciones adicionales extraídas para compactar las secciones.
 
 datos/       # CSV / base de datos SQLite con los datos de muestra.
 scripts/     # SQL / Python para trabajar con los datos.
 
+simulacion/  # Simulador SimPy del modelo (ver simulacion/README.md).
+analisis/    # Scripts de transitorio, tamaño de muestra e intervalos.
+configs/     # Configuración del modelo original.
+tests/       # Pruebas del simulador.
+
 src/         # Multimedia; imágenes.
+~~~
+
+## Simulador en Python
+
+El modelo de la sección 4 está implementado con SimPy. Instrucciones completas
+en [`simulacion/README.md`](simulacion/README.md).
+
+~~~bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -e .
+
+python scripts/extraer_muestras.py
+python -m simulacion --config configs/original.toml \
+    --replicas 20 --T 30000 --warmup 1000 --semilla 2026 \
+    --salida salida/ejemplo --procesos 4
+pytest
+~~~
